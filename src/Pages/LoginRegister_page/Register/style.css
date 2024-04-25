@@ -1,0 +1,47 @@
+html,body{
+    height: 100vh;
+    font-family: 'Numans', sans-serif;
+    }
+
+    
+    .container{
+    height: 100%;
+    align-content: center;
+    }
+
+    h3{
+        color: #5ed1d1;
+    }
+    
+    .card{
+    height: 400px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 450px;
+    background-color: rgba(0,0,0,0.5) ;
+    }
+
+    
+    .remember input
+    {
+    width: 18px;
+    height: 18px;
+    margin-left: 15px;
+    margin-right: 8px;
+    }
+    
+    .login_btn{
+    color: black;
+    font-size: large;
+    background-color: #5ed1d1;
+    width: 100%;
+    }
+    
+    .login_btn:hover{
+    color: black;
+    background-color: white;
+    }
+
+    label{
+        color: #5ed1d1;
+    }
