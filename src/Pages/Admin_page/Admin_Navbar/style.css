@@ -1,0 +1,22 @@
+.nav-pills .nav-link.active {
+    background-color:#13bcbc ;
+    /* Add any other styles you want to apply to the active pill */
+}
+.nav-pills .nav-link:hover {
+    color:white ;
+    /* Add any other styles you want to apply to the active pill */
+}
+.inactive{
+    color: black;
+}
+.right {
+    margin:  6px 8px 0 auto;
+}
+.signout {
+    margin-left: 10px;
+    margin-bottom: 2px;
+    color: black;
+}
+.signout:hover{
+    color:white;
+}

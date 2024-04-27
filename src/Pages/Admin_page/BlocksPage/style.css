@@ -1,0 +1,39 @@
+
+html,body{
+    height: 100vh;
+    font-family: 'Numans', sans-serif;
+    margin-top: 40px;
+    }
+
+    
+    .container{
+    height: 100%;
+    align-content: center;
+    }
+
+    .login_btn{
+        color: white;
+        font-size: large;
+        font-weight: bold;
+        background-color: #5ed1d1;
+        width: 100%;
+        }
+        
+        .login_btn:hover{
+        color: black;
+        background-color: wheat;
+        }
+    
+.boarderpadding {
+    padding:  10px 10px 10px 10px ;
+    margin: 0 auto;
+
+}
+.main{
+    margin: 20px auto 0 auto;
+}
+.rating_div{
+    background-color: #13bcbc;
+
+}
+    

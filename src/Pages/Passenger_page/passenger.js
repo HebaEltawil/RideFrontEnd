@@ -6,6 +6,6 @@ export const PassengerPage = () => {
     const {setEmail} = UseAuth();
     return <>
     <p> Hello Passenger </p>
-    <button onClick={()=>{setToken();}}>logout</button>
+    <button onClick={()=>{setToken();setRole();setEmail()}}>logout</button>
     </>
 }

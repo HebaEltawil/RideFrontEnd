@@ -6,7 +6,9 @@ import { RegisterPage } from "./Pages/LoginRegister_page/Register/Register";
 import { AdminPage } from "./Pages/Admin_page/admin";
 import { PassengerPage } from "./Pages/Passenger_page/passenger";
 import { DriverPage } from "./Pages/Driver_page/driver";
-
+import { BlocksPage } from "./Pages/Admin_page/BlocksPage/BlocksPage";
+import { PendingPage } from "./Pages/Admin_page/Pending_Page/PendingPage";
+import { Navbar } from "./Pages/Admin_page/Admin_Navbar/Navbar";
 
 const Routes = () => {
   const { token,role } = UseAuth();
@@ -15,18 +17,28 @@ const Routes = () => {
   const routesForAuthenticatedAdmin = [
     {
       path: "/",
-      element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
+      element: <><Navbar/> <ProtectedRoute /></>, // Wrap the component in ProtectedRoute
       children: [
         {
           path: "/",
-          element:  < AdminPage/>,
+          element:< AdminPage/>,
         },
+        {
+          path:"/blockPage",
+          element: <BlocksPage/>
+        },
+        {
+          path: "/pendingPage",
+          element: <PendingPage/>
+        },
+
       ],
     },
     {
         path: "*",
-        element:<AdminPage/>
+        element:<><Navbar/><AdminPage/></>
     }
+
 ];
 const routesForAuthenticatedDriver = [
   {
@@ -78,8 +90,6 @@ const routesForAuthenticatedPassenger = [
   ];
 
   // Combine and conditionally include routes based on authentication status
-  console.log(token);
-  console.log(role);
   const router = createBrowserRouter([
     // ...(!token ? routesForNotAuthenticatedOnly : []),
     // ...(token && role === "Admin" ? routesForAuthenticatedAdmin: routesForNotAuthenticatedOnly)
@@ -92,7 +102,6 @@ const routesForAuthenticatedPassenger = [
       routesForNotAuthenticatedOnly
     )
   ]);
-  console.log(role);
   // Provide the router configuration using RouterProvider
   return <RouterProvider router={router} />;
 };
