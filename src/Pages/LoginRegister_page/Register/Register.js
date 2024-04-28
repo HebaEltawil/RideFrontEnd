@@ -2,7 +2,7 @@ import { useState} from "react";
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import './media.css';
-import './style.css';
+import './registerStyle.css';
 import img from '../../../Assets/img/blue-car.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
@@ -109,7 +109,7 @@ function checkRole(){
 }
 
 return (
-    <body style={{backgroundImage: `url(${img})`,backgroundSize: 'cover'}}>
+    <body className="bodyR" style={{backgroundImage: `url(${img})`,backgroundSize: 'cover'}}>
     <div className="container">
         <div className="d-flex justify-content-center h-100">
             <div className="card m-auto">

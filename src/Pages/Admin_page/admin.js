@@ -1,8 +1,5 @@
-// import axios from "axios";
-// import { useEffect, useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
-import { Navbar } from './Admin_Navbar/Navbar';
 import axios from "axios";
+import './Driver_Dashboard/dashboardStyle.css'
 import { useEffect, useState } from 'react';
 import { DriverDashboard } from './Driver_Dashboard/Driver_Dashboard';
 import {drivers,blockedDrivers,clear} from'./data';
@@ -29,11 +26,11 @@ export const AdminPage =   () => {
         console.log(drivers,blockedDrivers);
     }, []);
 
-    return <>
+    return <body className='bodyD'>
     {loading ? (
                 <CircularProgress color="secondary" />
             ) : (
                 <DriverDashboard/>
             )}
-    </> 
+    </body> 
 }

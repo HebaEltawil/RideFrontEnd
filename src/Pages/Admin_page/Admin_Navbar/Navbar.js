@@ -1,6 +1,6 @@
 import Nav from 'react-bootstrap/Nav';
 import { Link ,useNavigate} from 'react-router-dom';
-import './style.css'
+import './NavbarStyle.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { UseAuth } from '../../../Services/AuthProvider/AuthProvider';
@@ -11,6 +11,7 @@ export const Navbar = () => {
 
     useEffect(()=>{
         navigate('/');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     return (
         <div>

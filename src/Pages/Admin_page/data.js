@@ -1,9 +1,10 @@
 let drivers =[];
 let blockedDrivers=[];
+let accountsPending=[];
 
 const clear= ()=>{
-      drivers=[];
-      blockedDrivers=[];
+    drivers=[];
+    blockedDrivers=[];
 }
 const removeDriver =(index)=>{
     drivers.splice(index,1);
@@ -17,4 +18,10 @@ const sortDriver =()=>{
 const sortBlockedDriver =()=>{
     blockedDrivers.sort((a, b) => a["rating"] - b["rating"]);
 } 
-export {drivers,blockedDrivers,clear,removeDriver,removeBlock,sortDriver,sortBlockedDriver};
+const clearAccount= ()=>{
+    accountsPending=[];
+}
+const removeAccount =(index)=>{
+    accountsPending.splice(index,1);
+}
+export {drivers,blockedDrivers,clear,removeDriver,removeBlock,sortDriver,sortBlockedDriver,accountsPending,clearAccount,removeAccount};

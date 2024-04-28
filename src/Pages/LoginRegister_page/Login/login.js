@@ -1,7 +1,7 @@
 import {useState} from "react";
 import { Link ,useNavigate} from 'react-router-dom';
 import './media.css';
-import './style.css';
+import './loginStyle.css';
 import img from '../../../Assets/img/blue-car.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
@@ -59,7 +59,7 @@ export const LoginPage = () => {
 
 
     return (
-<body style={{backgroundImage: `url(${img})`,backgroundSize: 'cover'}}>
+<body className="bodyL" style={{backgroundImage: `url(${img})`,backgroundSize: 'cover'}}>
     <div className="container">
         <div className="d-flex justify-content-center">
             <div className="card m-auto">

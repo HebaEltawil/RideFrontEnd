@@ -1,13 +1,14 @@
 import './media.css';
-import './style.css';
+import './blockStyle.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import img1 from '../../../Assets/img/thumb-cristiano-ronaldo-in-jump-4k-red-neon-lights-cr7-football-stars.jpg';
-import img2 from '../../../Assets/img/pngtree-vector-star-icon-png-image_1577370.jpg';
 import { blockedDrivers, drivers,removeBlock,sortBlockedDriver } from '../data';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 export const BlocksPage = ()=> {
     let [cards,setCards]= useState([]);
@@ -25,6 +26,7 @@ export const BlocksPage = ()=> {
     useEffect(()=>{
         driverCards();
         console.log(cards);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[blocktrigger]);
     const driverCards = ()=>{
         let temp=[];
@@ -36,7 +38,8 @@ export const BlocksPage = ()=> {
             let income=0;
             let trips=0;
             if(driver["rides"]){
-                let rides= driver["rides"]
+                let rides= driver["rides"];
+                let feedback=[];
                 for(const k in rides){
                     if(rides[k]["status"] === "paid"){
                         income = income + rides[k]["price"];
@@ -44,9 +47,28 @@ export const BlocksPage = ()=> {
                     if(rides[k]["status"] === "paid" || rides[k]["status"] === "done"){
                         trips+=1;
                     }
+                    feedback.push(
+                        <Popover.Body>
+                            <strong>Trip's ID:</strong> {rides[k]["id"]}<br/>
+                            <strong>Trip's Rating:</strong> {rides[k]["rate"]}<br/>
+                            <strong>Trip's Feedback:</strong> {rides[k]["feedback"]}<br/>
+                            <strong>Passenger Email:</strong> {rides[k]["passangerEmail"]}<br/>
+                            <strong>Passenger Name:</strong> {rides[k]["passanger"]["userName"]}<br/>
+                            <strong>Trip's Status:</strong> {rides[k]["status"]}<br/>
+                        </Popover.Body>
+                    );
                 }
+                var popover=( <Popover id="popover-positioned-bottom"> {feedback}</Popover>)
             }
-
+            else{
+                popover = (
+                    <Popover id="popover-positioned-bottom">
+                        <Popover.Body>
+                            <strong>Not Trips yet</strong>
+                        </Popover.Body>
+                    </Popover>
+                );
+            }
             temp.push(<div className="container">
             <div className=" border border-4 border-info rounded-4 w-75 h-auto boarderpadding " >
                 <div className="row h-100 w-100 p-0 m-0">
@@ -72,7 +94,9 @@ export const BlocksPage = ()=> {
                             {income.toFixed(2)}
                         </p>
                         <p className="">{driver["availability"]? "Available": "Not Available"}</p>
-                        <button className="btn btn-info"> Feedback </button>
+                        <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
+                        <Button className="btn btn-info">Feedback</Button>
+                        </OverlayTrigger>
                     </div>
                 </div>
             </div>
@@ -83,8 +107,7 @@ export const BlocksPage = ()=> {
         setCards(temp);
         console.log(temp);
     }
-    return <>
-    <body>
+    return <body className='bodyB'>
     <div style={{margin:"0 20px 0 auto",display:"flex",justifyContent:"end"}} >
     <button className='btn btn-warning' onClick={()=>{sortBlockedDriver();setBlockTrigger(!blocktrigger)}}>Sort</button>
     </div>
@@ -92,6 +115,6 @@ export const BlocksPage = ()=> {
     {cards}
     </div>
 </body> 
-    </>
+
 
 }
