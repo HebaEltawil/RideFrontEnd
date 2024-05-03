@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { blockedDrivers, drivers,removeDriver,sortDriver } from '../data';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -34,6 +34,8 @@ export const DriverDashboard = ()=> {
         console.log(drivers);
         for (const key in drivers) {
             let driver=drivers[key];
+            let imageURL= driver["imagePath"].replace(/\\/g,"/");
+            let profileImage = "https://localhost:7115/"+imageURL
             console.log(driver);
             let income=0;
             let trips=0;
@@ -47,6 +49,7 @@ export const DriverDashboard = ()=> {
                     if(rides[k]["status"] === "paid" || rides[k]["status"] === "done"){
                         trips+=1;
                     }
+                    if(rides[k]["status"] === "paid"){
                     feedback.push(
                         <Popover.Body>
                             <strong>Trip's ID:</strong> {rides[k]["id"]}<br/>
@@ -58,13 +61,18 @@ export const DriverDashboard = ()=> {
                         </Popover.Body>
                     );
                 }
-                var popover=( <Popover id="popover-positioned-bottom"> {feedback}</Popover>);
+                }
+                var popover=( <Popover id="popover-positioned-bottom"> {feedback.length !== 0 ? feedback   
+                : <Popover.Body>
+                <strong>No Feedback Yet</strong>
+            </Popover.Body>}</Popover>);
+                
             }
             else{
                 popover = (
                     <Popover id="popover-positioned-bottom">
                         <Popover.Body>
-                            <strong>Not Trips yet</strong>
+                            <strong>No Trips yet</strong>
                         </Popover.Body>
                     </Popover>
                 );
@@ -74,7 +82,7 @@ export const DriverDashboard = ()=> {
                 <div className="row h-100 w-100 p-0 m-0">
                     <div className="col-2 ">
                         <div className="position-relative ">
-                        <FontAwesomeIcon icon={faUserCircle} className="rounded-circle w-100 mt-2" size='7x' />
+                        <img src={profileImage} alt="Profile" className="rounded-circle mt-2" style={{ objectFit: "cover", width: "120px", height: "120px" }} />
                             <div className="w-100  h-25 rating_div position-absolute bottom-0">
                                 <div className="d-flex justify-content-center">
                                     <FontAwesomeIcon icon={faStar} style={{margin:"6px 0 auto 0",color:"#FFD700"}}/>
@@ -108,16 +116,17 @@ export const DriverDashboard = ()=> {
         setCards(temp);
         console.log(temp);
     }
-    return <>
+    return <> {cards.length === 0?(<div style={{height:"100vh",width:"100%",textAlign:"center",alignContent:"center"}}>
+    <p style={{color:"#5ed1d1"}}>No Drivers Yet</p>
+</div>):
 <body className='bodyD'>
         <div style={{margin:"0 20px 0 auto",display:"flex",justifyContent:"end"}} >
     <button className='btn btn-warning' onClick={()=>{sortDriver();setBlockTrigger(!blocktrigger)}}>Sort</button>
     </div>
-    
     <div className='main'>    
     {cards}
     </div>
-</body> 
+</body>} 
     </>
 
 }

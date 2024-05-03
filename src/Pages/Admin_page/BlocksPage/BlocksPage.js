@@ -47,6 +47,7 @@ export const BlocksPage = ()=> {
                     if(rides[k]["status"] === "paid" || rides[k]["status"] === "done"){
                         trips+=1;
                     }
+                    if(rides[k]["status"] === "paid"){
                     feedback.push(
                         <Popover.Body>
                             <strong>Trip's ID:</strong> {rides[k]["id"]}<br/>
@@ -58,13 +59,20 @@ export const BlocksPage = ()=> {
                         </Popover.Body>
                     );
                 }
-                var popover=( <Popover id="popover-positioned-bottom"> {feedback}</Popover>)
+                }
+                var popover=( <Popover id="popover-positioned-bottom">
+                    {feedback.length === 0 ?
+                <Popover.Body>
+                    <strong>No Feedback Yet</strong>
+                </Popover.Body>
+            : feedback}</Popover>)
+                
             }
             else{
                 popover = (
                     <Popover id="popover-positioned-bottom">
                         <Popover.Body>
-                            <strong>Not Trips yet</strong>
+                            <strong>No Trips Yet</strong>
                         </Popover.Body>
                     </Popover>
                 );
@@ -106,15 +114,17 @@ export const BlocksPage = ()=> {
         }
         setCards(temp);
         console.log(temp);
+        console.log(cards);
     }
-    return <body className='bodyB'>
+    return <> {cards.length === 0?(<div style={{height:"100vh",width:"100%",textAlign:"center",alignContent:"center"}}>
+    <p style={{color:"#5ed1d1"}}>No Block Drivers</p>
+</div>):<body className='bodyB'>
     <div style={{margin:"0 20px 0 auto",display:"flex",justifyContent:"end"}} >
     <button className='btn btn-warning' onClick={()=>{sortBlockedDriver();setBlockTrigger(!blocktrigger)}}>Sort</button>
     </div>
     <div className='main'>
     {cards}
     </div>
-</body> 
-
-
+</body> }
+</>
 }

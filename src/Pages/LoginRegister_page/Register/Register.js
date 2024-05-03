@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useEffect, useState} from "react";
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import './media.css';
@@ -7,7 +7,7 @@ import img from '../../../Assets/img/blue-car.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import axios from "axios";
-import { citiesMap } from "../../../data/citiesMap";
+import { citiesMap,setMap } from "../../../data/citiesMap";
 
 export const RegisterPage = () =>  {
 const [userName, setUserName] = useState('');
@@ -21,14 +21,40 @@ const [region, setRegion] = useState('Region');
 const [smoker, setSmoker] = useState('');
 const [gender, setGender] = useState('');
 var [regions,setRegions] = useState([]);
+var [file ,setFile] = useState(null) ;
+var [fileName ,setFileName] = useState('Choose Image: ') ;
 const [msg,setMsg] = useState('');
 const navigate = useNavigate();
+useEffect(()=>{
+    axios.get("https://localhost:7115/getCities").then((r)=>{
+        setMap(r.data["map"]);
+        setMsg('')
+    })
+
+})
 const passengerRegister = (d) => axios.post(process.env.REACT_APP_API+"/Passanger/createPassenger",d).then(()=>{
     navigate('/login');
 }).catch((e)=>{setMsg(e.response.data)});
-const driverRegister = (d) => axios.post(process.env.REACT_APP_API+"/Driver/createDriver",d).then(()=>{
+const driverRegister = (d) => {
+    var formData= new FormData();
+    formData.append("Email",d.email);
+    formData.append("Username",d.userName);
+    formData.append("Gender",d.gender);
+    formData.append("CarType",d.carType);
+    formData.append("City",d.city);
+    formData.append("Smoking",d.smoking);
+    formData.append("Region",d.region);
+    formData.append("Password",d.password);
+    formData.append("ConfirmPassword",d.confirmPassword);
+    formData.append("File",file);
+    console.log(file);
+    axios.post(process.env.REACT_APP_API+"/Driver/createDriver",formData,{
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }}).then(()=>{
     navigate('/login');
 }).catch((e)=>{setMsg(e.response.data)});
+}
 const singUp = (e) => {
     e.preventDefault();
     if(role === 'Passenger'){
@@ -46,7 +72,7 @@ const singUp = (e) => {
         passengerRegister(p);
     }
     else if (role === 'Driver'){
-        if( email.trim === "" || userName.trim === "" || gender.trim === "" || pass.trim === ""|| passConf.trim === "" || carType.trim === "" || city.trim === "" || region.trim === "" || smoker.trim === ""){
+        if( email.trim === "" || userName.trim === "" || gender.trim === "" || pass.trim === ""|| passConf.trim === "" || carType.trim === "" || city.trim === "" || region.trim === "" || smoker.trim === "" || file === null){
             setMsg("Please fill all fields");
             return;
         }
@@ -74,6 +100,7 @@ function checkRole(){
             regions2.push(<Dropdown.Item onClick={() => setRegion(region)}>{region}</Dropdown.Item>);
         })
         setRegions(regions2);
+        setRegion(regions2[0])
     }
     
     Object.keys(citiesMap).forEach(city => {
@@ -103,6 +130,12 @@ function checkRole(){
                         <label className="ms-4" >No
                         <input className="ms-1" type="radio" name="smoker" value={smoker} onChange={() => setSmoker(false)}/></label>
                         </div>
+                        <form encType="multipart/form-data">
+                        <label>
+                            {fileName}
+                        </label>
+                        <input type="file" onChange={(event)=>{setFile(event.target.files[0]);setFileName(event.target.files[0].name)}}/>
+                        </form>
                 </div>
         );
     }

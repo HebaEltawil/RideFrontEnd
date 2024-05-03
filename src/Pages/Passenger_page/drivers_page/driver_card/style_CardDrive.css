@@ -1,8 +1,7 @@
 
-.bodyD{
-    height: 100vh;
+    html,body{
+    height: 100%;
     font-family: 'Numans', sans-serif;
-    margin-top: 75px;
     }
 
     
@@ -24,16 +23,5 @@
         background-color: wheat;
         }
     
-.boarderpadding {
-    padding:  10px 10px 10px 10px ;
-    margin: 0 auto;
 
-}
-.main{
-    margin: 20px auto 0 auto;
-}
-.rating_div{
-    background-color: #13bcbc;
-
-}
     

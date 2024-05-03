@@ -1,0 +1,31 @@
+*{
+    box-sizing: border-box;
+} 
+
+html,body{
+    height: 100%;
+    font-family: 'Numans', sans-serif;
+    }
+
+    
+.container{
+    height: 100%;
+    }
+
+.login_btn{
+        color: white;
+        font-size: large;
+        font-weight: bold;
+        background-color: #5ed1d1;
+        width: 100%;
+        }
+        
+.login_btn:hover{
+        color: black;
+        background-color: gray;
+        }
+
+
+
+
+    

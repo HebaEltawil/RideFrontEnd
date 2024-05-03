@@ -4,11 +4,17 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import { LoginPage } from "./Pages/LoginRegister_page/Login/login";
 import { RegisterPage } from "./Pages/LoginRegister_page/Register/Register";
 import { AdminPage } from "./Pages/Admin_page/admin";
-import { PassengerPage } from "./Pages/Passenger_page/passenger";
 import { DriverPage } from "./Pages/Driver_page/driver";
 import { BlocksPage } from "./Pages/Admin_page/BlocksPage/BlocksPage";
 import { PendingPage } from "./Pages/Admin_page/Pending_Page/PendingPage";
+import { AllRidesPage } from "./Pages/Admin_page/AllRides/AllRides";
 import { Navbar } from "./Pages/Admin_page/Admin_Navbar/Navbar";
+import { Header } from './Shared/header/header';
+import {PassengerPage} from './Pages/Passenger_page/drivers_page/passenger_page';
+import {HistoryPage} from './Pages/Passenger_page/history_page/history_page';
+import {ProfilePage} from './Pages/Passenger_page/profile_page/profile_page';
+import { ReservationRide } from "./Pages/Passenger_page/ride/reservation_ride";
+import { PassangerHomePage } from "./Pages/Passenger_page/homepage/Passangerhome";
 
 const Routes = () => {
   const { token,role } = UseAuth();
@@ -31,6 +37,10 @@ const Routes = () => {
           path: "/pendingPage",
           element: <PendingPage/>
         },
+        {
+          path: "/allRidesPage",
+          element: <AllRidesPage/>
+        }
 
       ],
     },
@@ -59,17 +69,35 @@ const routesForAuthenticatedDriver = [
 const routesForAuthenticatedPassenger = [
   {
     path: "/",
-    element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
+    element: <><Header/><ProtectedRoute /></>, // Wrap the component in ProtectedRoute
     children: [
       {
-        path: "/",
-        element:  < PassengerPage/>,
+        path: "/", // localhost:3000
+        // element: <PassengerPage />
+        element:<PassangerHomePage/>
+      },
+      {
+        path: "/PassengerPage", // localhost:3000
+        element: <PassengerPage />
+        // element:<PassangerHomePage/>
+      },
+      {
+        path: "/history", // localhost:3000/history
+        element: <HistoryPage />
+      },
+      {
+        path: "/profile", // localhost:3000/profile
+        element: <ProfilePage />
+      },
+      {
+        path: "/reservation", // localhost:3000/reservation
+        element: <ReservationRide />
       },
     ],
   },
   {
       path: "*",
-      element:<PassengerPage/>
+      element:<><Header/><ProtectedRoute /></>
   }
 ];
 

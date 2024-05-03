@@ -12,15 +12,15 @@ export const AdminPage =   () => {
         
         clear();
         const fetchData = async () => {
-            try {
-                const response = await axios.get(process.env.REACT_APP_API + "/Admin/getAllDriver");
-                response.data.forEach(element => {
-                    element["blocked"] === true ? blockedDrivers.push(element) : drivers.push(element);
-                });
-                setLoading(false);
-            } catch (error) {
-                console.log(error);
-            }
+            await axios.get(process.env.REACT_APP_API + "/Admin/getAllDriver").then((response)=>{
+                    response.data.forEach(element => {
+                        element["blocked"] === true ? blockedDrivers.push(element) : drivers.push(element);
+                    });
+                    setLoading(false);
+                }).catch((e)=>{if(e.response.status === 404){
+                    setLoading(false);
+                }})
+                
         };
         fetchData();
         console.log(drivers,blockedDrivers);
