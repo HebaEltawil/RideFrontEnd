@@ -98,15 +98,6 @@ export const PassangerHomePage = ()=>{
         {rideGoing==null ?(<PassengerPage/>):(<ReservationRide />)}
         </>
     );
-
-    // if (rideGoing !==null) {
-    //     return <ReservationRide  />;
-    //   }
-    
-    //   // If there's no ongoing ride (status is paid or cancelled), show the passenger page
-    //   else{return <PassengerPage />;}
-
-
 };
 
 

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 
- export const DriverData  = ({citySource,regionFilter,carType,smoking,filterWord}) => {
-  // export const DriverData  = ({ filters }) => {
+//  export const DriverData  = ({citySource,regionFilter,carType,smoking,filterWord}) => {
+  export const DriverData  = ({ filters , isClicked }) => {
 
     const [drivers, setDrivers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -46,65 +46,73 @@ import axios from 'axios';
         );
       //   return ava.filter((driver) => !driver.blocked)
       };
-    console.log(filterDrivers())
-    const filterDriversByFilters = () => {
-      let filtered = filterDrivers(); // Base filter (available and not blocked)
-        console.log(filtered)
+    // console.log(filterDrivers())
+    // const filterDriversByFilters = () => {
+    //   let filtered = filterDrivers(); // Base filter (available and not blocked)
+    //     console.log(filtered)
         
-      if(filterWord === null) {
-        return filtered;
+    //   if(filterWord === null) {
+    //     return filtered;
 
-      } 
-      if (citySource === filterWord) {
-        filtered = filtered.filter((driver) => driver.city === citySource);
-        console.log(filtered)
-        return filtered;
-      }
+    //   } 
+    //   if (citySource === filterWord) {
+    //     filtered = filtered.filter((driver) => driver.city === citySource);
+    //     console.log(filtered)
+    //     return filtered;
+    //   }
   
-      if (regionFilter === filterWord) {
-        filtered = filtered.filter((driver) => driver.region === regionFilter);
-        console.log(filtered)
-        return filtered;
-      }
+    //   if (regionFilter === filterWord) {
+    //     filtered = filtered.filter((driver) => driver.region === regionFilter);
+    //     console.log(filtered)
+    //     return filtered;
+    //   }
   
-      if (carType === filterWord) {
-        filtered = filtered.filter((driver) => driver.carType === carType);
-        console.log(filtered)
-        return filtered;
-      }
+    //   if (carType === filterWord) {
+    //     filtered = filtered.filter((driver) => driver.carType === carType);
+    //     console.log(filtered)
+    //     return filtered;
+    //   }
   
-      if (smoking === filterWord) {
-        filtered = filtered.filter((driver) => driver.smoking === smoking);
-        console.log(filtered)
-        return filtered;
-      }
-      // console.log(filtered);    
-      // setFilteredDrivers1(filtered); // Return the filtered array
-      // console.log(FilteredDrivers1);
-      // console.log(filtered);
-      // return filtered;
+    //   if (smoking === filterWord) {
+    //     filtered = filtered.filter((driver) => driver.smoking === smoking);
+    //     console.log(filtered)
+    //     return filtered;
+    //   }
       
-    };
-
-
-
-    // const applyFilters = () => {
-    //   let result = filteredDrivers;
-  
-    //   if (citySource) {
-    //     result = result.filter((driver) => driver.city === citySource);
-    //   }
-  
-    //   if (carType) {
-    //     result = result.filter((driver) => driver.carType === carType);
-    //   }
-  
-    //   if (smoking !== null) { // Check if it's defined (could be true or false)
-    //     result = result.filter((driver) => driver.smoking === smoking);
-    //   }
-  
-    //   setFilteredDrivers1(result); // Update the filtered list of drivers
     // };
+
+
+
+    const applyFilters = () => {
+      let result = filterDrivers();
+  
+      if (filters.city) {
+        result = result.filter((driver) => driver.city === filters.city);
+      }
+
+      // if(isClicked){
+          if (filters.region) {
+            result = result.filter((driver) => driver.region === filters.region);
+          }
+      
+          if (filters.carType) {
+            result = result.filter((driver) => driver.carType === filters.carType);
+          }
+
+        
+          if (filters.smoking !== undefined) { // Check if it's defined (could be true or false)
+            result = result.filter((driver) => driver.smoking === filters.smoking);
+          }
+          // return result;
+        // }
+
+      if (filters.search) {
+        result = result.filter((driver) => driver.username === filters.search);
+      }
+  
+      // setFilteredDrivers1(result);
+      return result;
+    };
 
   //   useEffect(() => {
   //     filterDriversByFilters(); // Apply filters to update the filtered list
@@ -114,7 +122,8 @@ import axios from 'axios';
       return {
         isLoading,
         error,
-        filterDriversByFilters: filterDriversByFilters(),
+        // filterDriversByFilters: filterDriversByFilters(),
+        filterDriversByFilters: applyFilters(),
       };
     // const filterDrivers = () => {
     //     return drivers.filter(
@@ -153,6 +162,3 @@ import axios from 'axios';
     //   }; 
 }
 
-export const FilterDriverData = ({ drivers }) => {
-    
-}

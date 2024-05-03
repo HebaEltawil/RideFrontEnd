@@ -26,8 +26,8 @@ export const ReservationRide = () => {
     const name =localStorage.getItem('userName');
     const rideID=localStorage.getItem('rideId');
     const [isPaying, setIsPaying] = useState(false); // State to control when to display the additional inputs
-  const [feedback, setFeedback] = useState(null);
-  const [userRating, setUserRating] = useState(null);
+  const [feedback, setFeedback] = useState('');
+  const [userRating, setUserRating] = useState('');
   const [error, setError] = useState('');
     const {email}=UseAuth();
     const [isCancelled, setIsCancelled] = useState(false);
@@ -77,117 +77,42 @@ export const ReservationRide = () => {
             {
               params: { 
                 id: rideID,
-                rate: userRating,
-                feedback: feedback
+                rate:userRating,
+                feedback: feedback,
               }
             }
-          );
+          );console.log(response.data);
         } catch (error) {
           console.error("Error paying for ride:", error);
         }
         navigate("/PassengerPage");
       }
 
-    // const payAndFeedback = async () => {
-        // const response = await axios.patch(
-        //   `${process.env.REACT_APP_API}/Passanger/payAndFeedback`, // Base endpoint
-        //   {},  // No request body, we're using query parameters
-        //   {
-        //     params: {  // Pass query parameters
-        //       id: rideID,
-        //       rating,
-        //       feedback
-        //     }
-        //   }
-        // );
-    //     console.log("Response from server:", response.data);
-    //     navigate("/PassengerPage");  // Navigate to another page on success
-    //     } catch (err) {
-    //       console.error("Error submitting feedback:", err);
-    //       setError("Failed to submit feedback. Please try again.");
-    //     }
-    //   }
-
-        
-    //   }
-    // };
-    const handlePayClick = () => {
-      setIsPaying(true); // Show the additional input fields
-    };
-    
-    const isDisabled = () => {
-      if(userRating!==null && feedback!==null){
-        return false;
-       }
-      else{return true} 
-    }
-    // const handleSubmit = () => {
-    //   const ratingValue = parseInt(userRating, 10);
-    //   if (ratingValue >= 5 || ratingValue <= 0) { // Validate the range
-    //     setError('Rating must be between 1 and 4'); // Set the error message
-    //     return; // Exit early to avoid submission
-    //   }
-  
-    //   setError(''); 
-    //   console.log(`Rating: ${userRating}, Feedback: ${feedback}`);
-    //   // Add logic to submit the data to the backend
-    // };
-
-    // const pay =()=>{
-    //   return(<div>
-    //     <input type="number" className="form-control rounded-pill" placeholder="rating" />
-    //     <input type="text" className="form-control rounded-pill" placeholder="feedback" />
-    //     </div>
-    //   );
-    // }
       
+    const handleRatingChange = (e) => {
+      const newRating = parseInt(e.target.value, 10);
+      
+      if (isNaN(newRating) || newRating < 1 || newRating > 5) {
+        setError('Rating must be between 1 and 5');
+        setUserRating(''); 
+      } else {
+        setError('');
+        setUserRating(newRating); 
+      }
+    };
 
+  
+  const handlePayClick = () => {
+    setIsPaying(true); // Show the additional input fields
+  };
+  
+  const isDisabled = () => {
+    return !userRating || !feedback;
+  }
 
-    // if (ride["status"] === "ongoing"){
-    //   return(
-    //     <>
-    //         <p>Driver: {userName}</p>
-    //         <p>Rating: {rating}</p>
-    //         {(smoke==true)?(
-    //             <FontAwesomeIcon icon={faSmoking} />
-    //         ):(<FontAwesomeIcon icon={faBanSmoking} />)}
-    //         <p>The trip is ongoing. You can cancel it.</p>
-    //         <button >
-    //             Cancel Ride
-    //         </button>
-          
-    //       </>
-    //   );
-    // }
-    
-    // if (ride["status"] === "done" ){
-    //   return (
-    //     <>
-    //         <p>Driver: {userName}</p>
-    //         <p>Rating: {rating}</p>
-    //         {(smoke==true)?(
-    //             <FontAwesomeIcon icon={faSmoking} />
-    //         ):(<FontAwesomeIcon icon={faBanSmoking} />)}
-    //         <button >
-    //           Pay for the Ride
-    //         </button>
-    //       </>
-    //   );
-    // }
-
-    // if(rideGoing["status"] === "cancelled"){
-    //   // setRideGoing(null);
-    //   navigate("/PassengerPage");
-
-    // }
-
-    // useEffect(() => {
-    //   if (isCancelled ) {
-    //     // setRideGoing(null);
-    //     navigate("/PassengerPage");
-    //   }
-    // }, [isCancelled,navigate]);
     console.log(location);
+    console.log("userRating",userRating);
+    console.log("feedback",feedback);
 
     if(rideGoing !== null){
     return (
@@ -240,18 +165,18 @@ export const ReservationRide = () => {
                 type="number"
                 className="form-control rounded-pill"
                 placeholder="Rating"
-                required min={1}
+                 min={1}
                 max={5} // To limit the range of valid ratings
                 value={userRating}
-                onChange={(e) => setUserRating(e.target.value)}
+                onChange={(e) => handleRatingChange(e)}
               />
+              {error && <div style={{ color: 'red' }}>{error}</div>}
               <input
                 type="text"
                 className="form-control rounded-pill"
                 placeholder="Feedback"
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
-                required
               />
               <input
                 type="submit"

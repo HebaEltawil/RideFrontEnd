@@ -15,10 +15,11 @@ import { faBanSmoking, faCarOn, faSearch, faStar, faStreetView } from '@fortawes
 export const PassengerPage = () => {
 
   const [filters, setFilters] = useState({
-    city: undefined,
-    region: undefined,
-    carType: undefined,
+    city: '',
+    region: '',
+    carType: '',
     smoking: undefined,
+    search: '',
   });
 
   const [citySource, setCitySource] = useState(''); // Default value
@@ -35,7 +36,9 @@ export const PassengerPage = () => {
   const [regionFilter, setregionFilter] = useState('');
   const [filterWord, setfilterWord] = useState(null);
   const [msg,setMsg] = useState('');
-  const {  isLoading, error, filterDriversByFilters } = DriverData({ citySource,regionFilter,carType,smoking,filterWord });
+  const [isClicked,setisClicked]=useState(false);
+  // const {  isLoading, error, filterDriversByFilters } = DriverData({ citySource,regionFilter,carType,smoking,filterWord });
+  const {  isLoading, error, filterDriversByFilters } = DriverData({ filters ,isClicked});
 
     const handleCityChange = (selectedCity) => {
       setFilters({ ...filters, city: selectedCity });
@@ -51,6 +54,10 @@ export const PassengerPage = () => {
 
     const handleSmokeChange = (Smoking) => {
       setFilters({ ...filters, smoking: Smoking });
+    };
+
+    const handleSearchChange = (search) => {
+      setFilters({ ...filters, search: search });
     };
 
 
@@ -86,59 +93,58 @@ export const PassengerPage = () => {
   return (
     < > 
     <div className="mt-3">
-     <FontAwesomeIcon icon={faStreetView} className='fa-solid fa-2xl'></FontAwesomeIcon>
-     <select
-  name="select"
-  className="border border-3 border-black rounded-3"
-  style={{ width: "300px", height: "45px" }}
-  onChange={(event) => {
-    const selectedSource = event.target.value.split(',');
-    setCitySource(selectedSource[1]);
-    setregionSource(selectedSource[0]);
-    handleCityChange(selectedSource[1]);
-    setfilterWord(selectedSource[1]);
-  }}
->
-<optgroup defaultValue="">
-                    <option value="" className="fs-5">Leaving from</option>
-                  </optgroup>
-  <optgroup label="Leaving from">
-    {Object.keys(citiesMap).map((city) => (
-      citiesMap[city].map((regionData) => (
-        <option key={`${regionData.region},${city}`} value={`${regionData.region},${city}`}>
-          {regionData.region}, {city}
-        </option>
-      ))
-    ))}
-  </optgroup>
-</select>
+      <FontAwesomeIcon icon={faStreetView} className='fa-solid fa-2xl'></FontAwesomeIcon>
+      <select
+          name="select"
+          className="border border-3 border-black rounded-3"
+          style={{ width: "300px", height: "45px" }}
+          onChange={(event) => {
+            const selectedSource = event.target.value.split(',');
+            setCitySource(selectedSource[1]);
+            setregionSource(selectedSource[0]);
+            handleCityChange(selectedSource[1]);
+            setfilterWord(selectedSource[1]);
+          }}
+        >
+            <optgroup defaultValue="">
+                <option value="" className="fs-5">Leaving from</option>
+            </optgroup>
+            <optgroup label="Leaving from">
+              {Object.keys(citiesMap).map((city) => (
+                citiesMap[city].map((regionData) => (
+                  <option key={`${regionData.region},${city}`} value={`${regionData.region},${city}`}>
+                    {regionData.region}, {city}
+                  </option>
+                ))
+              ))}
+            </optgroup>
+        </select>
       </div>
 
       <div className="mt-3 ms-5">
         <FontAwesomeIcon icon={ faCarOn} className='fa-solid fa-2xl'/>
-        
-      <select
-  name="select"
-  className="border border-3 border-black rounded-3"
-  style={{ width: "300px", height: "45px" }}
-  onChange={(event) => {
-    const selectedSource = event.target.value.split(',');
-    setCityDest(selectedSource[1]);
-    setregionDest(selectedSource[0]);
-  }}
-><optgroup defaultValue="">
-                    <option value="" className="fs-5">Going To</option>
-                  </optgroup>
-  <optgroup label="Going To">
-    {Object.keys(citiesMap).map((city) => (
-      citiesMap[city].map((regionData) => (
-        <option key={`${regionData.region},${city}`} value={`${regionData.region},${city}`}>
-          {regionData.region}, {city}
-        </option>
-      ))
-    ))}
-  </optgroup>
-</select>
+        <select
+        name="select"
+        className="border border-3 border-black rounded-3"
+        style={{ width: "300px", height: "45px" }}
+        onChange={(event) => {
+          const selectedSource = event.target.value.split(',');
+          setCityDest(selectedSource[1]);
+          setregionDest(selectedSource[0]);}}>
+
+            <optgroup defaultValue="">
+                <option value="" className="fs-5">Going To</option>
+            </optgroup>
+            <optgroup label="Going To">
+              {Object.keys(citiesMap).map((city) => (
+                citiesMap[city].map((regionData) => (
+                  <option key={`${regionData.region},${city}`} value={`${regionData.region},${city}`}>
+                    {regionData.region}, {city}
+                  </option>
+                ))
+              ))}
+            </optgroup>
+        </select>
       </div>
     </> 
 
@@ -149,6 +155,7 @@ export const PassengerPage = () => {
   // Update the main button title based on car type and smoker status
   setMainButtonTitle(newTitle);
 };
+
  function filterBy() {
   return(<>
       <button type="button" className="btn btn-white text-info fw-bold w-auto" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -164,18 +171,16 @@ export const PassengerPage = () => {
             </div>
             <div className="modal-body">
               <div className="mt-2">
-                                {citySource ? (
+                  {citySource ? (
                     <select
-                        name="select"
-                        className="w-50 h-25 border border-3 border-black rounded-3"
-                        onChange={(event) => {
-                        const selectedRegion = event.target.value;
-                        setregionFilter(selectedRegion);
-                        updateMainButtonTitle(`Region -- ${selectedRegion}`);
-                        handleRegionChange(selectedRegion);
-                        setfilterWord(selectedRegion);
-                        }}
-                    >
+                      name="select"
+                      className="w-50 h-25 border border-3 border-black rounded-3"
+                      onChange={(event) => {
+                      const selectedRegion = event.target.value;
+                      setregionFilter(selectedRegion);
+                      updateMainButtonTitle(`Region -- ${selectedRegion}`);
+                      handleRegionChange(selectedRegion);
+                      setfilterWord(selectedRegion);}}>
                         <optgroup label="Region">
                         {citiesMap[citySource].map((regionData) => (
                             <option key={regionData.region} value={regionData.region}>
@@ -188,72 +193,70 @@ export const PassengerPage = () => {
                     <select
                         name="select"
                         className="w-50 h-25 border border-3 border-black rounded-3"
-                        disabled={true}
-                    >
+                        disabled={true}>
                         <optgroup label="Region">
-                        <option value="" className="fs-5">Regions</option>
+                          <option value="" className="fs-5">Regions</option>
                         </optgroup>
                     </select>
                     )}
               </div>
               <div className="d-flex flex-nowrap mt-3">
-  <p className="fw-bold fs-5">Smoker:</p>
-  <span className="ms-4 mt-2">
-    <div className="form-check form-switch">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        role="switch"
-        id="flexSwitchCheckChecked"
-        defaultChecked={smoking} // assuming `smoking` is a state variable that holds the smoking status
-        onChange={(event) => {
-          const isChecked = event.target.checked;
-          if (isChecked) {
-            updateMainButtonTitle('Smoking -- Yes');
-            handleSmokeChange(true);
-          } else {
-            updateMainButtonTitle('Smoking -- No');
-            handleSmokeChange(false);
-          }
-          setSmoking(isChecked);
-          setfilterWord(isChecked);
-        }}
-      />
-      <label className="form-check-label fw-bold text-danger ms-1" htmlFor="flexSwitchCheckChecked">Yes</label>
-    </div>
-  </span>
-</div>
+                <p className="fw-bold fs-5">Smoker:</p>
+                <span className="ms-4 mt-2">
+                  <div className="form-check form-switch">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckChecked"
+                      defaultChecked={smoking} // assuming `smoking` is a state variable that holds the smoking status
+                      onChange={(event) => {
+                        const isChecked = event.target.checked;
+                        if (isChecked) {
+                          updateMainButtonTitle('Smoking -- Yes');
+                          handleSmokeChange(true);
+                        } else {
+                          updateMainButtonTitle('Smoking -- No');
+                          handleSmokeChange(false);
+                        }
+                        setSmoking(isChecked);
+                        setfilterWord(isChecked);
+                      }}
+                    />
+                    <label className="form-check-label fw-bold text-danger ms-1" htmlFor="flexSwitchCheckChecked">Yes</label>
+                  </div>
+                </span>
+              </div>
               <div className="mt-2">
-              <select
-  name="select"
-  className="w-50 h-25 border border-3 border-black rounded-3"
-  onChange={(event) => {
-    const selectedCarType = event.target.value;
-    setCarType(selectedCarType);
-    updateMainButtonTitle(`Car type -- ${selectedCarType}`);
-    handleCarChange(selectedCarType);
-    setfilterWord(selectedCarType);
-  }}
->
-  <optgroup label="Car Type">
-    <option value="" className="fs-5">Car Type</option>
-    <option value="SUV">SUV</option>
-    <option value="Coupe">Coupe</option>
-    <option value="Hatchback">Hatchback</option>
-    <option value="Sedan">Sedan</option>
-  </optgroup>
-</select>
+                <select
+                  name="select"
+                  className="w-50 h-25 border border-3 border-black rounded-3"
+                  onChange={(event) => {
+                    const selectedCarType = event.target.value;
+                    setCarType(selectedCarType);
+                    updateMainButtonTitle(`Car type -- ${selectedCarType}`);
+                    handleCarChange(selectedCarType);
+                    setfilterWord(selectedCarType);}}>
+
+                  <optgroup label="Car Type">
+                    <option value="" className="fs-5">Car Type</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Coupe">Coupe</option>
+                    <option value="Hatchback">Hatchback</option>
+                    <option value="Sedan">Sedan</option>
+                  </optgroup>
+                </select>
               </div>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary">Save changes</button>
+              {/* <button type="button" className="btn btn-primary" 
+              onClick={()=>setisClicked(true)}>Save changes</button> */}
             </div>
           </div>
         </div>
       </div>
-   
-</>
+   </>
   )
  }
 
@@ -266,7 +269,10 @@ export const PassengerPage = () => {
     {filterBy()}
     </div>
     <div className="input-group rounded mt-4 w-75 mx-auto">
-      <input type="search" className="form-control rounded border border-3 border-black rounded-3" style={{ height: "50px" }} placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+      <input type="search" className="form-control rounded border border-3 border-black rounded-3" 
+      style={{ height: "50px" }} placeholder="Search" aria-label="Search" 
+      aria-describedby="search-addon" 
+      onChange={(event)=>handleSearchChange(event.target.value)}/>
       <span className="input-group-text border-0 bg-info" id="search-addon">
        <FontAwesomeIcon icon={faSearch} className='fas'></FontAwesomeIcon>
       </span>

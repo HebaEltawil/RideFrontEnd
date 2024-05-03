@@ -1,0 +1,32 @@
+.nav-pills {
+    display: flex;
+ /* Center items horizontally */
+    align-items: center;
+    font-size: 16px; /* Adjust the font size of the navbar links */
+    height: 50px; /* Adjust the overall height of the navbar */
+}
+.nav-pills .nav-link.active {
+    background-color:#13bcbc ;
+    height: 50px;
+    align-items: center;
+    display: flex;
+    /* Add any other styles you want to apply to the active pill */
+}
+.nav-pills .nav-link:hover {
+    color:white ;
+    /* Add any other styles you want to apply to the active pill */
+}
+.inactive{
+    color: black;
+}
+.right {
+    margin:  6px 8px 0 auto;
+}
+.signout {
+    margin-left: 10px;
+    margin-bottom: 2px;
+    color: black;
+}
+.signout:hover{
+    color:white;
+}

@@ -9,10 +9,10 @@ import { BlocksPage } from "./Pages/Admin_page/BlocksPage/BlocksPage";
 import { PendingPage } from "./Pages/Admin_page/Pending_Page/PendingPage";
 import { AllRidesPage } from "./Pages/Admin_page/AllRides/AllRides";
 import { Navbar } from "./Pages/Admin_page/Admin_Navbar/Navbar";
-import { Header } from './Shared/header/header';
+
+import { Header } from "./Pages/Passenger_page/header/header";
 import {PassengerPage} from './Pages/Passenger_page/drivers_page/passenger_page';
 import {HistoryPage} from './Pages/Passenger_page/history_page/history_page';
-import {ProfilePage} from './Pages/Passenger_page/profile_page/profile_page';
 import { ReservationRide } from "./Pages/Passenger_page/ride/reservation_ride";
 import { PassangerHomePage } from "./Pages/Passenger_page/homepage/Passangerhome";
 
@@ -69,7 +69,11 @@ const routesForAuthenticatedDriver = [
 const routesForAuthenticatedPassenger = [
   {
     path: "/",
-    element: <><Header/><ProtectedRoute /></>, // Wrap the component in ProtectedRoute
+    element:  <>
+    <Header /> 
+    <div style={{ paddingTop: '60px' }}> 
+      <ProtectedRoute />
+    </div> </>,
     children: [
       {
         path: "/", // localhost:3000
@@ -84,10 +88,6 @@ const routesForAuthenticatedPassenger = [
       {
         path: "/history", // localhost:3000/history
         element: <HistoryPage />
-      },
-      {
-        path: "/profile", // localhost:3000/profile
-        element: <ProfilePage />
       },
       {
         path: "/reservation", // localhost:3000/reservation
