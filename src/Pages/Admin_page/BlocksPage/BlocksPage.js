@@ -35,6 +35,8 @@ export const BlocksPage = ()=> {
         for (const key in blockedDrivers) {
             let driver=blockedDrivers[key];
             console.log(driver);
+            let imageURL= driver["imagePath"].replace(/\\/g,"/");
+            let profileImage = "https://localhost:7115/"+imageURL
             let income=0;
             let trips=0;
             if(driver["rides"]){
@@ -82,7 +84,7 @@ export const BlocksPage = ()=> {
                 <div className="row h-100 w-100 p-0 m-0">
                     <div className="col-2 ">
                         <div className="position-relative ">
-                        <FontAwesomeIcon icon={faUserCircle} className="rounded-circle w-100 mt-2" size='7x' />
+                        <img src={profileImage} alt="Profile" className="rounded-circle mt-2" style={{ objectFit: "cover", width: "120px", height: "120px" }} />
                             <div className="w-100  h-25 rating_div position-absolute bottom-0">
                                 <div className="d-flex justify-content-center">
                                     <FontAwesomeIcon icon={faStar} style={{margin:"6px 0 auto 0",color:"#FFD700"}}/>

@@ -107,7 +107,7 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
                                 ) : (
                                   <FontAwesomeIcon icon={faBanSmoking} className="fa-solid fs-4 ms-4 mt-1" style={{ color: "black" }} />
                                 )}
-                         
+                      
                                 <div className="row d-flex flex-nowrap  w-100">
                                   <div className="col-1"> <img src={img_CityRegion} alt="" /></div>
                                   <div className="col-10 p-2 ms-4">

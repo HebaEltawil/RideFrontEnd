@@ -29,7 +29,7 @@ export const PassangerHomePage = ()=>{
                 console.log(rideData);
                 console.log(element.id);
                 
-               })
+            })
             // }
             console.log(rideData);
         })
