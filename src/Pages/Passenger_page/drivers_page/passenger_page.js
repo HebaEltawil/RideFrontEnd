@@ -38,7 +38,7 @@ export const PassengerPage = () => {
   const [msg,setMsg] = useState('');
   const [isClicked,setisClicked]=useState(false);
   // const {  isLoading, error, filterDriversByFilters } = DriverData({ citySource,regionFilter,carType,smoking,filterWord });
-  const {  isLoading, error, filterDriversByFilters } = DriverData({ filters ,isClicked});
+  const {  isLoading, error, filterDriversByFilters } = DriverData({ filters ,isClicked,setisClicked});
 
     const handleCityChange = (selectedCity) => {
       setFilters({ ...filters, city: selectedCity });
@@ -60,6 +60,19 @@ export const PassengerPage = () => {
       setFilters({ ...filters, search: search });
     };
 
+
+    const resetIsClicked = () => {
+      setisClicked(false); // Reset when modal is closed
+    };
+
+    const resetFilters = () => {
+      setFilters({
+        ...filters, // Preserve other filters like 'city' and 'search'
+        region: '', // Reset region
+        carType: '', // Reset car type
+        smoking: undefined, // Reset smoking status
+      });
+    };
 
     useEffect(() => {
       axios.get("https://localhost:7115/getCities").then((r)=>{
@@ -162,7 +175,7 @@ export const PassengerPage = () => {
         Filter
       </button>
 
-      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -248,10 +261,11 @@ export const PassengerPage = () => {
                 </select>
               </div>
             </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              {/* <button type="button" className="btn btn-primary" 
-              onClick={()=>setisClicked(true)}>Save changes</button> */}
+            <div className="modal-footer" >
+              <button type="button" className="btn btn-secondary" 
+              onClick={()=>{resetIsClicked();resetFilters()}}>Clear</button>
+              <button type="button" className="btn btn-primary" data-bs-dismiss="modal" 
+              onClick={()=>setisClicked(true)}>Save changes</button>
             </div>
           </div>
         </div>

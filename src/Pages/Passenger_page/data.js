@@ -21,18 +21,34 @@ const setDriverRating = (e)=>{
     localStorage.setItem('rating',e);
 }
 const setDriverUserName = (e)=>{
-    userName = e;
+    // userName = e;
     localStorage.setItem('userName',e);
 }
 
 const setrideId = (e)=>{
-    rideId = e;
+    // rideId = e;
     localStorage.setItem('rideId',e);
 }
 
+const setfrom = (e)=>{
+    // rideId = e;
+    localStorage.setItem('from',e);
+    
+    
+}
 
-export {rideData,removeRideData,rideGoing,setRideGoing,rating,smoking,userName,
-setDriverRating,setDriverSmoking,setDriverUserName,setrideId,rideId};
+const setto = (e)=>{
+    // rideId = e;
+    localStorage.setItem('to',e);
+}
+
+const setimagePath = (e)=>{
+    // rideId = e;
+    localStorage.setItem('imagePath',e);
+}
+
+export {rideData,removeRideData,rideGoing,setRideGoing,setimagePath,
+setDriverRating,setDriverSmoking,setDriverUserName,setrideId,setfrom,setto};
 
 
 
