@@ -91,23 +91,25 @@ import axios from 'axios';
       }
 
       // if(isClicked){
-          if (filters.region) {
+          if (filters.region && isClicked) {
             result = result.filter((driver) => driver.region === filters.region);
           }
       
-          if (filters.carType) {
+          if (filters.carType && isClicked) {
             result = result.filter((driver) => driver.carType === filters.carType);
           }
 
         
-          if (filters.smoking !== undefined) { // Check if it's defined (could be true or false)
+          if (filters.smoking !== undefined && isClicked) { // Check if it's defined (could be true or false)
             result = result.filter((driver) => driver.smoking === filters.smoking);
           }
           // return result;
         // }
-
       if (filters.search) {
-        result = result.filter((driver) => driver.username === filters.search);
+        const searchLower = filters.search.toLowerCase();
+        result = result.filter((driver) =>
+          driver.username.toLowerCase().includes(searchLower)
+        );
       }
   
       // setFilteredDrivers1(result);

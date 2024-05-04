@@ -1,23 +1,18 @@
 import { Link, useNavigate } from "react-router-dom"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import the FontAwesomeIcon component
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { faSmoking} from '@fortawesome/free-solid-svg-icons';
 import { faBanSmoking,faStar } from "@fortawesome/free-solid-svg-icons";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './media_CardDrive.css';
 import './style_CardDrive.css';
-import img_Rating from '../../../../Assets/img/pngtree-vector-star-icon-png-image_1577370.jpg';
 import img_UserPicture from '../../../../Assets/img/user_picture.png'
 import img_CityRegion from '../../../../Assets/img/Screenshot (31).png'
 import { UseAuth } from "../../../../Services/AuthProvider/AuthProvider";
-// import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
-import { setDriverRating, setDriverSmoking, setDriverUserName, setRideGoing, setrideId } from "../../data";
-// import { useRide } from "../../data";
+import { setDriverRating, setDriverSmoking, setDriverUserName, setRideGoing, setimagePath, setrideId,setfrom,setto } from "../../data";
 
 
-// export const DriverCard = (props) => {
-// const filteredDrivers =[];
 export const DriverCard = ({filterDriversByFilters,citySource,cityDest
     ,regionSource,regionDest,lat1,lat2,long1,long2}) => {
     
@@ -39,7 +34,6 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
             .then((response) => {
                 console.log(response.data);
                 setPrice(response.data);
-                // Handle data
             })
             .catch((error) => {
                 console.log(error);
@@ -56,12 +50,14 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
                 response = res.data;
                 console.log(res.data);
                  console.log(res.data.id);
-                setrideId(res.data.id)})
+                setrideId(res.data.id);
+                setfrom(res.data.from);
+                setto(res.data.to)})
           .catch((e)=>  console.error('Error sending ride request:', e));
         setRideGoing(response);
     };    
 
-    const handleRequestRide = async (driverEmail,rating,smoking,userName) => {
+    const handleRequestRide = async (driverEmail,rating,smoking,userName,imagePath) => {
     const rideData = {
         passangerEmail: email,
         driverEmail: driverEmail,
@@ -76,6 +72,7 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
     setDriverUserName(userName);
     setDriverRating(rating);
     setDriverSmoking(smoking);
+    setimagePath(imagePath);
   
     navigate("/reservation");
     };  
@@ -123,7 +120,7 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
                                       className="btn login_btn"
                                       onClick={() => {
                                         console.log("Button clicked");
-                                        handleRequestRide(driver.email, driver.rating, driver.smoking, driver.username);
+                                        handleRequestRide(driver.email, driver.rating, driver.smoking, driver.username ,driver.imagePath?'https://localhost:7115/'+driver.imagePath.replace(/\\/g,'/'):img_UserPicture);
                                       }}
                                     />
                                   ) : (

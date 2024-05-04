@@ -1,26 +1,12 @@
-.status-badge {
-    position: absolute;
-    top: -15px; /* Adjust as needed to place it above the card */
-    left: 10px; /* Adjust to align with the card */
-    background-color: red; /* Or another color to indicate cancellation */
-    color: rgb(30, 23, 23);
-    padding: 5px;
-    border-radius: 5px;
-  }
-  
-  .status-badge.paid {
-    background-color: green; /* Color for 'paid' status */
-  }
-
   .badge.cancelled {
-    background-color: #FF4136; /* Red color */
+    background-color: #FF4136; 
     color: white;
     padding: 4px 8px;
     border-radius: 5px;
 }
 
 .badge.paid {
-    background-color: #2ECC40; /* Green color */
+    background-color: #2ECC40;
     color: white;
     padding: 4px 8px;
     border-radius: 5px;
