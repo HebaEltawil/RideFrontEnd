@@ -1,0 +1,39 @@
+.bodyA_R{
+    height: 100vh;
+    font-family: 'Numans', sans-serif;
+    margin-top: 75px;
+    }
+    .ridesCard {
+        background-color: rgb(246, 245, 245);
+        border-radius: 20px;
+        box-shadow: 4px 4px 4px 0px rgb(106, 106, 106);
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-left: 20px;
+        column-gap: 20px; /* Adjust gap as needed */
+        row-gap: 10px;
+    }
+    .card-1 {
+        width: 29rem;
+        height: 16rem;
+        padding: 20px;
+      }
+      
+      .card-text-1 {
+        margin-bottom: 0.5rem; /* Adjust the spacing between each card-text */
+      }
+      
+      .card-text-1 strong {
+        color: #5ed1d1;
+      }
+      
+      .card-text-1.from-to {
+        display:flex;
+        align-items: baseline; /* Align "From:" and "To:" on the same line */
+      }
+      
+      .card-text-1.from-to strong {
+        margin-right: 0.5rem; /* Adjust the spacing between "From:" and "To:" */
+      }

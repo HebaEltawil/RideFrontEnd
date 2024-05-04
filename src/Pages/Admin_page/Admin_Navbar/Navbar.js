@@ -25,6 +25,9 @@ export const Navbar = () => {
             <Nav.Item>
                 <Nav.Link eventKey="link-2" as={Link} to="/pendingPage" className='inactive'>Pending Accounts</Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+                <Nav.Link eventKey="link-3" as={Link} to="/allRidesPage" className='inactive'>All Rides</Nav.Link>
+            </Nav.Item>
             <Nav.Item className="right">
             <FontAwesomeIcon icon={faUserCircle} inverse size='lg'></FontAwesomeIcon>
             <Link className='signout'onClick={()=>{setToken();setRole();setEmail()}}>sign out</Link>

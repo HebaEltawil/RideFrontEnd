@@ -1,0 +1,13 @@
+  .badge.cancelled {
+    background-color: #FF4136; 
+    color: white;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+
+.badge.paid {
+    background-color: #2ECC40;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 5px;
+}

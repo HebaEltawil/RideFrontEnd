@@ -1,6 +1,7 @@
 let drivers =[];
 let blockedDrivers=[];
 let accountsPending=[];
+let allRides=[];
 
 const clear= ()=>{
     drivers=[];
@@ -24,4 +25,7 @@ const clearAccount= ()=>{
 const removeAccount =(index)=>{
     accountsPending.splice(index,1);
 }
-export {drivers,blockedDrivers,clear,removeDriver,removeBlock,sortDriver,sortBlockedDriver,accountsPending,clearAccount,removeAccount};
+const clearAllRides= ()=>{
+    allRides=[];
+}
+export {drivers,blockedDrivers,clear,removeDriver,removeBlock,sortDriver,sortBlockedDriver,accountsPending,clearAccount,removeAccount,clearAllRides,allRides};

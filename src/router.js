@@ -4,13 +4,19 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import { LoginPage } from "./Pages/LoginRegister_page/Login/login";
 import { RegisterPage } from "./Pages/LoginRegister_page/Register/Register";
 import { AdminPage } from "./Pages/Admin_page/admin";
-import { PassengerPage } from "./Pages/Passenger_page/passenger";
 import { DriverPage } from "./Pages/Driver_page/driver";
 import { BlocksPage } from "./Pages/Admin_page/BlocksPage/BlocksPage";
 import { PendingPage } from "./Pages/Admin_page/Pending_Page/PendingPage";
+import { AllRidesPage } from "./Pages/Admin_page/AllRides/AllRides";
 import { Navbar } from "./Pages/Admin_page/Admin_Navbar/Navbar";
 import {HistoryPage} from "./Pages/Driver_page/historyPage/historyPage";
 import {NavbarDriver} from "./Pages/Driver_page/driverNavBar/Navbar";
+
+import { Header } from "./Pages/Passenger_page/header/header";
+import {PassengerPage} from './Pages/Passenger_page/drivers_page/passenger_page';
+import {HistoryPage} from './Pages/Passenger_page/history_page/history_page';
+import { ReservationRide } from "./Pages/Passenger_page/ride/reservation_ride";
+import { PassangerHomePage } from "./Pages/Passenger_page/homepage/Passangerhome";
 
 const Routes = () => {
   const { token,role } = UseAuth();
@@ -33,6 +39,10 @@ const Routes = () => {
           path: "/pendingPage",
           element: <PendingPage/>
         },
+        {
+          path: "/allRidesPage",
+          element: <AllRidesPage/>
+        }
 
       ],
     },
@@ -66,17 +76,35 @@ const routesForAuthenticatedDriver = [
 const routesForAuthenticatedPassenger = [
   {
     path: "/",
-    element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
+    element:  <>
+    <Header /> 
+    <div style={{ paddingTop: '60px' }}> 
+      <ProtectedRoute />
+    </div> </>,
     children: [
       {
-        path: "/",
-        element:  < PassengerPage/>,
+        path: "/", // localhost:3000
+        // element: <PassengerPage />
+        element:<PassangerHomePage/>
+      },
+      {
+        path: "/PassengerPage", // localhost:3000
+        element: <PassengerPage />
+        // element:<PassangerHomePage/>
+      },
+      {
+        path: "/history", // localhost:3000/history
+        element: <HistoryPage />
+      },
+      {
+        path: "/reservation", // localhost:3000/reservation
+        element: <ReservationRide />
       },
     ],
   },
   {
       path: "*",
-      element:<PassengerPage/>
+      element:<><Header/><ProtectedRoute /></>
   }
 ];
 
