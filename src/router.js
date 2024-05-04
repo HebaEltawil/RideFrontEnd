@@ -9,6 +9,8 @@ import { DriverPage } from "./Pages/Driver_page/driver";
 import { BlocksPage } from "./Pages/Admin_page/BlocksPage/BlocksPage";
 import { PendingPage } from "./Pages/Admin_page/Pending_Page/PendingPage";
 import { Navbar } from "./Pages/Admin_page/Admin_Navbar/Navbar";
+import {HistoryPage} from "./Pages/Driver_page/historyPage/historyPage";
+import {NavbarDriver} from "./Pages/Driver_page/driverNavBar/Navbar";
 
 const Routes = () => {
   const { token,role } = UseAuth();
@@ -43,11 +45,16 @@ const Routes = () => {
 const routesForAuthenticatedDriver = [
   {
     path: "/",
-    element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
+    element: <><NavbarDriver/> <ProtectedRoute /></>, // Wrap the component in ProtectedRoute
     children: [
       {
         path: "/",
         element:  < DriverPage/>,
+      },
+
+      {
+        path: "/driverHistoryPage",
+        element:  < HistoryPage/>,
       },
     ],
   },
