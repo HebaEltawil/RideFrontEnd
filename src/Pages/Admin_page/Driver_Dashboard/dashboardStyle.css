@@ -36,4 +36,27 @@
     background-color: #13bcbc;
 
 }
-    
+.sortIcon {
+    margin-left: 10px;
+
+} 
+.sortIcon:hover{
+    color: #13bcbc;
+}
+ .arrowIcon:hover{
+    color: #13bcbc;
+ }
+
+.card-f {
+    margin-bottom: 0.5rem; /* Adjust the spacing between each card-text */
+  }
+  
+  .card-f strong {
+    color: #58c8c8;
+  }
+
+  .feedCard {
+    background-color: rgb(246, 245, 245);
+    border-radius: 20px;
+    box-shadow: 4px 4px 4px 0px rgb(93, 93, 93);
+}

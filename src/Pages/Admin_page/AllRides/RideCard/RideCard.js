@@ -17,7 +17,7 @@ export const RidesCard = ()=>{
         for (const key in allRides) {
             let ride = allRides[key];
             console.log(ride);
-            temp.push(<div class="card-1 ridesCard" >
+            temp.push(<div className="card-1 ridesCard" >
             <div className="card-body">
                 <div className="card-text-1 from-to"><strong>From: </strong>{ride["from"]} 
                     <strong style={{marginLeft:"20px"}}>To:</strong> {ride["to"]}</div>
@@ -25,7 +25,7 @@ export const RidesCard = ()=>{
                 <p className="card-text-1" ><strong >Driver Email:</strong> {ride["driverEmail"]}</p>
                 <p className="card-text-1" ><strong >Date:</strong> {ride["date"]}</p>
                 <p className="card-text-1" ><strong >Status:</strong> {ride["status"]}</p>
-                <p className="card-text-1" ><strong >Price:</strong> {ride["price"]}</p>
+                <p className="card-text-1" ><strong >Price:</strong> {ride["price"].toFixed(2)}</p>
                 <p className="card-text-1" ><strong >Car Type:</strong> {ride["driver"]["carType"]}</p>
             </div>
             </div>
