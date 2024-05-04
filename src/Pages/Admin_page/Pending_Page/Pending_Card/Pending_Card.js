@@ -88,7 +88,7 @@ export const PendingCard = ()=> {
     {cards.length === 0?(<div style={{height:"100vh",width:"100%",textAlign:"center",alignContent:"center"}}>
         <p style={{color:"#5ed1d1"}}>No Pending Accounts</p>
     </div>):
-    (<div className='grid-container'>
+    (<div className='grid-container1'>
     {cards}
     </div>)}
     </>

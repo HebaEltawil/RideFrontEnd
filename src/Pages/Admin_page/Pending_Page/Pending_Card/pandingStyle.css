@@ -39,7 +39,7 @@
 .cardPadding {
     padding: 20px;
 }
-.grid-container {
+.grid-container1 {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     margin-left: 20px;

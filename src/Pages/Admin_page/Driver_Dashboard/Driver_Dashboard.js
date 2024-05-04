@@ -1,12 +1,13 @@
 import './media.css';
 import './dashboardStyle.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { blockedDrivers, drivers,removeDriver,sortDriver } from '../data';
+import { blockedDrivers, drivers,removeDriver,sortDriver ,accountsPending} from '../data';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faArrowDownShortWide,faChevronLeft,faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
+import { CaretRight } from 'phosphor-react';
 // import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 // import Popover from 'react-bootstrap/Popover';
 import ReactCardFlip from 'react-card-flip';
@@ -16,6 +17,7 @@ export const DriverDashboard = ()=> {
     let [blocktrigger,setBlockTrigger]= useState(false);
     let [isFlipped,setFlipped]= useState({});
     const [count, setCount] = useState({});
+    const [availableDriversCount,setAvailableCount] = useState(0);
     const leftArrow = (index)=>{
         if (count[index] > 0) {
             setCount({ ...count, [index]: count[index] - 1 });
@@ -38,12 +40,63 @@ export const DriverDashboard = ()=> {
         })
     }
     useEffect(()=>{
+        var tempAvailable = 0;
+        drivers.forEach((element)=>{console.log(element); if(element['availability'] === true)tempAvailable+=1;} )
+            setAvailableCount(tempAvailable);
+       
     },[blocktrigger]);
     return <> {drivers.length === 0 ? (<div style={{height:"100vh",width:"100%",textAlign:"center",alignContent:"center"}}>
     <p style={{color:"#5ed1d1"}}>No Drivers Yet</p>
     </div>):(
 <body className='bodyD'>
-    <div className="input-group rounded mt-4 w-75 mx-auto" style={{marginBottom:"70px"}}>
+<div className="tiles">
+<article className="tile">
+        <div className="tile-header">
+          {/* <IconLightningLight size={24} /> */}
+          <h3>
+            <span>Drivers</span>
+            <span>In System</span>
+            <span> {drivers.length} </span>
+          </h3>
+        </div>
+        
+      </article>
+      <article className="tile">
+        <div className="tile-header">
+          {/* <IconLightningLight size={24} /> */}
+          <h3>
+            <span>Drivers</span>
+            <span>Available</span>
+            <span> {availableDriversCount} </span>
+          </h3>
+        </div>
+        
+      </article>
+      <article className="tile">
+        <div className="tile-header">
+          {/* <IconLightningLight size={24} /> */}
+          <h3>
+            <span>Drivers</span>
+            <span>Blocked</span>
+            <span> {blockedDrivers.length} </span>
+          </h3>
+        </div>
+      
+      </article>
+      <article className="tile">
+        <div className="tile-header">
+          {/* <IconLightningLight size={24} /> */}
+          <h3>
+            <span>Pending</span>
+            <span>Accounts</span>
+            <span> {accountsPending.length} </span>
+          </h3>
+        </div>
+       
+      </article>
+    </div>
+    <h1 style={{padding:"20px" ,color: "#157e7e",fontWeight:'bold'}}>Drivers</h1>
+    <div className="input-group rounded mt-4 w-75 mx-auto" style={{marginBottom:"50px"}}>
         <input type="search" className="form-control rounded border border-3 border-black rounded-3" 
         style={{ height: "50px" }} placeholder="Search" aria-label="Search" 
         aria-describedby="search-addon" 
@@ -120,7 +173,7 @@ export const DriverDashboard = ()=> {
                 </div>
                 <div className="col-2 " style={{color: "#5ed1d1"}}>
                     <p className="fs-3 fw-bold mb-0 pb-0">
-                        {income.toFixed(2)}
+                        {income.toFixed(2)}E£
                     </p>
                     <p className="">{item.availability? "Available": "Not Available"}</p>
                     <Button className="btn btn-info" onClick={()=>{;setFlipped({
@@ -135,13 +188,13 @@ export const DriverDashboard = ()=> {
         <br/>
     </div>
     {/***************** */}
-    <div style={{width: "75%", height: "auto"}}> {/* Change width and height properties */}
-    <div className="w-100 cardd mb-3" >
-        <div className="border border-4 border-info rounded-4 w-100 h-auto">
+    <div className="container">
+    <div className=" border border-4 border-info rounded-4 w-75 h-auto boarderpadding " >
             <h2 style={{marginLeft: '20px'}}>FeedBack</h2>
             <div className="d-flex align-items-center justify-content-between h-100 p-0 m-0">
-                <div className="col-2 d-flex align-items-center arrowIcon" style={{paddingLeft:"120px"}} >
-                    <FontAwesomeIcon icon={faChevronLeft} size="xl" onClick={()=>leftArrow(index)}/>
+                {feedback.length !== 0 ? (<><div className="col-2 d-flex align-items-center  arrowIcon" style={{paddingLeft:"120px"}} >
+                    {count[index] !== 0 && <FontAwesomeIcon icon={faChevronLeft} size="xl" onClick={()=>leftArrow(index)}/>}
+                    
                 </div>
                 <div className="col-8 p-2 h-100 feedCard">
                     <div  >
@@ -149,11 +202,11 @@ export const DriverDashboard = ()=> {
                     </div>
                 </div>
                 <div className="col-2 d-flex align-items-center justify-content-end arrowIcon" style={{paddingRight:"120px"}}>
-                    <FontAwesomeIcon icon={faChevronRight} size="xl" onClick={()=> rightArrow(index, feedback.length)}/>
-                </div>
+                    {count[index] !== feedback.length-1 &&  <FontAwesomeIcon icon={faChevronRight} size="xl" onClick={()=> rightArrow(index, feedback.length)}/>}                  
+                </div></>):(<div style={{margin:"0 auto 0 auto"}} ><p>No feedback for this driver Yet</p></div>)}
             </div>
-            <div className="d-flex justify-content-end">
-                <button className="btn btn-info mr-3 mb-3" style={{marginRight: "20px"}} onClick={()=>{;setFlipped({
+            <div className="d-flex justify-content-end" style={{paddingTop:"20px"}}>
+                <button className="btn btn-info" style={{marginRight: "20px"}} onClick={()=>{;setFlipped({
             ...isFlipped,
             
                 [index]:false
@@ -161,7 +214,7 @@ export const DriverDashboard = ()=> {
         })}}>Driver Information</button>
             </div>
         </div>
-    </div>
+        <br/>
 </div>
     </ReactCardFlip>
     })}

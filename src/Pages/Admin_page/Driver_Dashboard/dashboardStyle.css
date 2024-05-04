@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 .bodyD{
     height: 100vh;
-    font-family: 'Numans', sans-serif;
+    font-family: 'Poppins';
+
     margin-top: 75px;
     }
 
@@ -59,4 +61,118 @@
     background-color: rgb(246, 245, 245);
     border-radius: 20px;
     box-shadow: 4px 4px 4px 0px rgb(93, 93, 93);
+}
+
+.tiles {
+    padding: 20px;
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	column-gap: 1rem;
+	row-gap: 1rem;
+	margin-top: 1.25rem;
+	@media (max-width: 700px) {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}
+
+
+.tile {
+	padding: 1rem;
+	border-radius: 8px;
+	background-color:#58c8c8;
+	color: black;
+	min-height: 200px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	position: relative;
+	transition: 0.25s ease;
+
+	&:hover {
+		transform: translateY(-5px);
+	}
+
+	&:focus-within {
+		box-shadow: 0 0 0 2px #111, 0 0 0 4px white;
+	}
+
+	&:nth-child(2) {
+		background-color: rgb(162, 255, 162);
+		&:focus-within {
+			box-shadow: 0 0 0 2px #111, 0 0 0 4px green;
+		}
+	}
+	&:nth-child(3) {
+		background-color: rgb(251, 94, 94);
+		&:focus-within {
+			box-shadow: 0 0 0 2px #111, 0 0 0 4px #ccc;
+		}
+	}
+    &:nth-child(4) {
+		background-color:     #ccc;
+		&:focus-within {
+			box-shadow: 0 0 0 2px #111, 0 0 0 4px #ccc;
+		}
+	}
+  
+
+	a {
+		text-decoration: none;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		font-weight: 600;
+        color: cadetblue;
+
+		.icon-button {
+			color: inherit;
+			border-color: inherit;
+			&:hover,
+			&:focus {
+				background-color: transparent;
+				i {
+					transform: none;
+				}
+			}
+		}
+
+		&:focus {
+			box-shadow: none;
+		}
+
+		&:after {
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+	}
+}
+
+.tile-header {
+    color: black;
+	display: flex;
+	align-items: center;
+	i {
+		font-size: 2.5em;
+	}
+
+	h3 {
+        color: black;
+		display: flex;
+		flex-direction: column;
+		line-height: 1.375;
+		margin-left: 0.5rem;
+		span:first-child {
+			font-weight: 600;
+		}
+
+		span:last-child {
+			font-size: 0.825em;
+			font-weight: 200;
+		}
+	}
 }
