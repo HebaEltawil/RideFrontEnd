@@ -44,7 +44,7 @@ export const Finance = ({driverData, monthMoney}) => {
                 <div className="comment-section">
                     {Object.keys(isDaily? dayMoney : monthMoney).map((key)=> {
                         return (<div className="comment">
-                            {key} : {isDaily ? dayMoney[key] : monthMoney[key]} L.E
+                            {key} : {isDaily ? dayMoney[key].toFixed(2) : monthMoney[key].toFixed(2)} L.E
                         </div>)
                     })}
                 </div>

@@ -21,8 +21,14 @@ const DriverPage = () => {
                     setIsLoading(false);
                 });
         }else{
-            setDriverData(kDriverData);
-            setIsLoading(false);
+            //setDriverData(kDriverData);
+            //setIsLoading(false);
+            axios.get(process.env.REACT_APP_API + "/Driver/getDriverByEmail/" + email)
+                .then((response) => {
+                    setKDriverData(response.data);
+                    setDriverData(response.data);
+                    setIsLoading(false);
+                })
         }
     }, [email]);
 

@@ -21,7 +21,7 @@ export const DriverHomePage = ({driverData}) =>{
     let [localDriverData, setLocalDriverData] = useState(driverData);
     const {setToken,setRole,setEmail} = UseAuth();
     let connection;
-
+    connection = createSignalRConnection();
     useEffect(() => {
         clearUpdates();
         if(Object.keys(kMonthMoney).length === 0) {
@@ -38,7 +38,6 @@ export const DriverHomePage = ({driverData}) =>{
             setMonthMoney(kMonthMoney);
             setIsLoading(false);
         }
-        connection = createSignalRConnection();
         if (connection) {
             connection.start()
                 .then(result => {

@@ -97,7 +97,7 @@ export const Profile = ({ driverData, monthMoney }) => {
                         Model: {localDriverData.carType}</p>
                     <p className="fw-bolder fs-5 mb-1 ms-2"><i></i> City: {localDriverData.city}</p>
                     <p className="fw-bolder fs-5 mb-1 ms-2">Total income
-                        : {Object.keys(monthMoney).length === 0 ? 0 : calculateTotalIncome(monthMoney)} L.E </p>
+                        : {Object.keys(monthMoney).length === 0 ? 0 : calculateTotalIncome(monthMoney).toFixed(2)} L.E </p>
                 </div>
             </div>
         </div>

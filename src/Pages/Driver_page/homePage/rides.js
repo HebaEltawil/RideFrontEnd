@@ -161,7 +161,7 @@ export const Rides = ({driverData}) => {
         }
         checkActive();
     }, [driverData]);
-
+    console.log("something updated rides page");
     return (
         <div style = {isActive ? {marginTop: "28%"} : null}>
             {localDriverData.rides.map((ride) => (
