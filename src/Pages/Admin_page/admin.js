@@ -4,10 +4,19 @@ import { useEffect, useState } from 'react';
 import { DriverDashboard } from './Driver_Dashboard/Driver_Dashboard';
 import {drivers,blockedDrivers,clear,clearAccount,accountsPending} from'./data';
 import CircularProgress from '@mui/material/CircularProgress';
+import {HubConnectionBuilder} from '@microsoft/signalr'
 
 export const AdminPage =   () => {
     const [loading, setLoading] = useState(true);
-    
+    const createSignalRConnection = () => {
+        const connection = new HubConnectionBuilder()
+          .withUrl("https://localhost:7115/realTime")
+          .withAutomaticReconnect()
+          .build();
+
+        return connection;
+      };
+    const connection = createSignalRConnection();
     useEffect(()=>{
         
         clear();
@@ -30,7 +39,18 @@ export const AdminPage =   () => {
                 
         };
         fetchData();
+        if (connection) {
+            connection.start()
+                .then(result => {
+                    console.log('Connected!');
 
+                    connection.on('UpdatePending', passenger => {
+                        accountsPending.push(passenger);
+                      console.log(passenger);
+                    });
+                })
+                .catch(e => console.log('Connection failed: ', e));
+        }
   
   
     }, []);
