@@ -9,6 +9,8 @@ import { BlocksPage } from "./Pages/Admin_page/BlocksPage/BlocksPage";
 import { PendingPage } from "./Pages/Admin_page/Pending_Page/PendingPage";
 import { AllRidesPage } from "./Pages/Admin_page/AllRides/AllRides";
 import { Navbar } from "./Pages/Admin_page/Admin_Navbar/Navbar";
+import {HistoryPageDriver} from "./Pages/Driver_page/historyPage/historyPage";
+import {NavbarDriver} from "./Pages/Driver_page/driverNavBar/Navbar";
 
 import { Header } from "./Pages/Passenger_page/header/header";
 import {PassengerPage} from './Pages/Passenger_page/drivers_page/passenger_page';
@@ -53,11 +55,16 @@ const Routes = () => {
 const routesForAuthenticatedDriver = [
   {
     path: "/",
-    element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
+    element: <><NavbarDriver/> <ProtectedRoute /></>, // Wrap the component in ProtectedRoute
     children: [
       {
         path: "/",
         element:  < DriverPage/>,
+      },
+
+      {
+        path: "/driverHistoryPage",
+        element:  < HistoryPageDriver/>,
       },
     ],
   },

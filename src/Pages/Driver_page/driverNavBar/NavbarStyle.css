@@ -1,0 +1,31 @@
+.nav-pills .nav-link {
+    align-content: center;
+    text-align: center;
+    height: 58px;
+    color: black; /* Set default color */
+}
+.nav-pills .nav-link.active {
+    align-content: center;
+    text-align: center;
+    height: 58px;
+    background-color:#13bcbc ;
+    /* Add any other styles you want to apply to the active pill */
+}
+.nav-pills .nav-link:hover {
+    color:white ;
+    /* Add any other styles you want to apply to the active pill */
+}
+.right {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* This will push the signout link to the right */
+}
+
+.signout {
+    margin-left: 10px;
+    margin-bottom: 2px;
+    color: black;
+}
+.signout:hover{
+    color:white;
+}
