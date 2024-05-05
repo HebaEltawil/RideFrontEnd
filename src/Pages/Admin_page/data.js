@@ -2,7 +2,7 @@ let drivers =[];
 let blockedDrivers=[];
 let accountsPending=[];
 let allRides=[];
-
+let allDrivers =[];
 const clear= ()=>{
     drivers=[];
     blockedDrivers=[];
@@ -28,4 +28,7 @@ const removeAccount =(index)=>{
 const clearAllRides= ()=>{
     allRides=[];
 }
-export {drivers,blockedDrivers,clear,removeDriver,removeBlock,sortDriver,sortBlockedDriver,accountsPending,clearAccount,removeAccount,clearAllRides,allRides};
+const clearAllDrivers= ()=>{
+    allDrivers=[];
+}
+export {drivers,blockedDrivers,clear,removeDriver,removeBlock,sortDriver,sortBlockedDriver,accountsPending,clearAccount,removeAccount,clearAllRides,allRides,allDrivers,clearAllDrivers};

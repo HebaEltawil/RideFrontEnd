@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faArrowDownShortWide,faChevronLeft,faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-import { CaretRight } from 'phosphor-react';
+//import { CaretRight } from 'phosphor-react';
 // import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 // import Popover from 'react-bootstrap/Popover';
 import ReactCardFlip from 'react-card-flip';
@@ -45,11 +45,8 @@ export const DriverDashboard = ()=> {
             setAvailableCount(tempAvailable);
        
     },[blocktrigger]);
-    return <> {drivers.length === 0 ? (<div style={{height:"100vh",width:"100%",textAlign:"center",alignContent:"center"}}>
-    <p style={{color:"#5ed1d1"}}>No Drivers Yet</p>
-    </div>):(
-<body className='bodyD'>
-<div className="tiles">
+    return <> <body className='bodyD'>
+        <div className="tiles">
 <article className="tile">
         <div className="tile-header">
           {/* <IconLightningLight size={24} /> */}
@@ -95,6 +92,12 @@ export const DriverDashboard = ()=> {
        
       </article>
     </div>
+    {drivers.length === 0 ? (<div style={{height:"100vh",width:"100%",padding:"20px"}}>
+    <h2 style={{color:"#157e7e"}}>No Drivers Yet</h2>
+    </div>):(
+
+    <>
+
     <h1 style={{padding:"20px" ,color: "#157e7e",fontWeight:'bold'}}>Drivers</h1>
     <div className="input-group rounded mt-4 w-75 mx-auto" style={{marginBottom:"50px"}}>
         <input type="search" className="form-control rounded border border-3 border-black rounded-3" 
@@ -219,7 +222,7 @@ export const DriverDashboard = ()=> {
     </ReactCardFlip>
     })}
     </div>
-</body>)}
+</>)}</body>
     </>
     
 }
@@ -238,7 +241,7 @@ export const DriverDashboard = ()=> {
 
 
 
-
+//#58c8c8
 //style={{backgroundColor: 'grey', height: '300px', width: '750px'}}
                 //if(rides[k]["status"] === "paid"){
                 // feedback.push(
