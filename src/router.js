@@ -9,7 +9,7 @@ import { BlocksPage } from "./Pages/Admin_page/BlocksPage/BlocksPage";
 import { PendingPage } from "./Pages/Admin_page/Pending_Page/PendingPage";
 import { AllRidesPage } from "./Pages/Admin_page/AllRides/AllRides";
 import { Navbar } from "./Pages/Admin_page/Admin_Navbar/Navbar";
-import {HistoryPage} from "./Pages/Driver_page/historyPage/historyPage";
+import {HistoryPageDriver} from "./Pages/Driver_page/historyPage/historyPage";
 import {NavbarDriver} from "./Pages/Driver_page/driverNavBar/Navbar";
 
 import { Header } from "./Pages/Passenger_page/header/header";
@@ -64,7 +64,7 @@ const routesForAuthenticatedDriver = [
 
       {
         path: "/driverHistoryPage",
-        element:  < HistoryPage/>,
+        element:  < HistoryPageDriver/>,
       },
     ],
   },
