@@ -8,37 +8,17 @@ export const RidesCard = ()=>{
     
     const [driverName,setDriverName] =useState('')
     const [driverEmail,setDriverEmail] =useState('');
-    let driversName = allDrivers.map((item)=>(
-    <DropdownItem onClick={() => {setDriverName(item.username);setDriverEmail(item.email)}}>
-        {item.username}
-        </DropdownItem>)) 
-    // const filter =()=>{
-    //     return (
-    //         <select
-    //     name="select"
-    //     className="border border-3 border-black rounded-3"
-    //     style={{ width: "300px", height: "45px" }}
-    //     onChange={(event) => {
-    //         const name = event.target.value;
-    //         setDriverName(name);
-    //     }}>
-    //         <optgroup defaultValue="">
-    //             <option value="" className="fs-5">Going To</option>
-    //         </optgroup>
-    //         <optgroup label={driverName}>
-    //          {allDrivers.map((item)=>{
-    //             return <option  value={item.username}>
-    //             {item.username}
-    //           </option>
-    //          })}
-                
-    //         </optgroup>
-    //     </select>
-        
-    //     )
-    // }
-    useEffect(()=>{
+    const [driversName,setDrivers]= useState([]);
+    console.log(allDrivers)
     
+    useEffect(()=>{
+        console.log(allDrivers.length)
+        const temp = allDrivers.map((item)=>{console.log(item);return(
+            <option value={item.username+','+item.email}>
+                {item.username} | {item.email}
+                </option>)})
+        setDrivers(temp)
+        console.log(temp)
     },[])
 console.log(driversName);
 console.log(driverName);
@@ -47,9 +27,14 @@ console.log(driverEmail);
 return <>{allRides.length === 0?(<div style={{height:"100vh",width:"100%",textAlign:"center",alignContent:"center"}}>
 <p style={{color:"#5ed1d1"}}>No Rides Yet</p>
 </div>): <div>
-<DropdownButton title={driverName} style={{marginLeft:"10px"}}>
-{driversName}
-</DropdownButton>
+    <div style={{padding:"10px"}}>
+    <select className='selectRide' onChange={(e)=>{
+        const value= e.target.value.split(',')
+        setDriverName(value[0]);setDriverEmail(value[1])
+    }} style={{borderStyle:"outset"}}>
+        <option value=",">Select Driver</option>
+        {driversName}</select>
+    </div>
 <div className='grid-container'>
 {allRides.filter((item) =>{
         return driverName === 'Driver Name' ? item : item.driverEmail.includes(driverEmail);

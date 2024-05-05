@@ -1,15 +1,15 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSmoking} from '@fortawesome/free-solid-svg-icons';
 import { faBanSmoking } from "@fortawesome/free-solid-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 import { UseAuth } from "../../../Services/AuthProvider/AuthProvider";
-import {  rideGoing } from "../data";
+import {  rideGoing,setRideGoing } from "../data";
 import './style1.css'
 import img_CityRegion from '../../../Assets/img/Screenshot (31).png'
-import { green } from "@mui/material/colors";
+
 
 
 
@@ -35,16 +35,18 @@ export const ReservationRide = () => {
 
 
     const cancelRide = async () => {
-        const data= { status: "cancelled" }
+      console.log(rideGoing);
         try {
-          await axios.patch(`${process.env.REACT_APP_API}/Passanger/cancelRide?id=${rideID}`,data)
+          await axios.patch(`${process.env.REACT_APP_API}/Passanger/cancelRide?id=${rideID}`)
             .then((res) => {
+              setRideGoing(null);
             console.log("Ride cancelled:", res.data);
           });
           
         } catch (error) {
           console.error("Error canceling ride:", error);
         }
+        console.log(rideGoing);
         navigate("/PassengerPage");
     };
   
@@ -109,7 +111,7 @@ export const ReservationRide = () => {
 
                 <img
                   src={image}
-                  
+                  alt="profile"
                   className="rounded-circle ride-image"
                 /><br/>
 
@@ -120,9 +122,9 @@ export const ReservationRide = () => {
 
             <div className="ride-bottom bg-white ">
             <p className="centered-text">The trip is pending, Waiting for the driver to accept.</p><br/>
-              <div className="row d-flex flex-nowrap  w-100">
-                <div className="col-1" style={{marginLeft:300}}> <img src={img_CityRegion} alt="" /></div>
-                <div className="col-10 p-2 ms-4">
+              <div className=" d-flex justify-content-center">
+                <div className="" > <img src={img_CityRegion} alt="" /></div>
+                <div className="p-2 ms-4">
                   <p className="mb-1">{from}</p>
                   <p className="mb-1">{to}</p>
                 </div>
@@ -152,7 +154,7 @@ export const ReservationRide = () => {
 
             <img
               src={image}
-              
+            alt="profile"
               className="rounded-circle ride-image"
             /><br/>
 
@@ -163,9 +165,9 @@ export const ReservationRide = () => {
 
         <div className="ride-bottom bg-white ">
         <p className="centered-text1" >The driver accept the trip.</p><br/>
-          <div className="row d-flex flex-nowrap  w-100">
-            <div className="col-1" style={{marginLeft:300}}> <img src={img_CityRegion} alt="" /></div>
-            <div className="col-10 p-2 ms-4">
+          <div className=" d-flex justify-content-center">
+            <div className="" > <img src={img_CityRegion} alt="" /></div>
+            <div className=" p-2 ms-4">
               <p className="mb-1">{from}</p>
               <p className="mb-1">{to}</p>
             </div>
@@ -196,7 +198,7 @@ export const ReservationRide = () => {
           
               <img
                 src={image}
-                
+                alt="profile"
                 className="rounded-circle ride-image"
               /><br/>
           
@@ -207,9 +209,9 @@ export const ReservationRide = () => {
           
           <div className="ride-bottom bg-white ">
           <p className="centered-text1" >The trip is end please pay.</p><br/>
-            <div className="row d-flex flex-nowrap  w-100">
-              <div className="col-1" style={{marginLeft:300}}> <img src={img_CityRegion} alt="" /></div>
-              <div className="col-10 p-2 ms-4">
+            <div className=" d-flex justify-content-center">
+              <div className="" > <img src={img_CityRegion} alt="" /></div>
+              <div className=" p-2 ms-4">
                 <p className="mb-1">{from}</p>
                 <p className="mb-1">{to}</p>
               </div>
@@ -236,13 +238,15 @@ export const ReservationRide = () => {
                 value={feedback || ""}
                 onChange={(e) => setFeedback(e.target.value)}
               />
-              <br/><input
+              <br/><div className="d-flex">
+              <input
                 type="submit"
                 value="ok"
                 disabled={isDisabled()}
                 className="submit-btn"
                 onClick={()=>{payAndFeedback();}} 
               />
+              </div>
             </div>
           ) : (
             <button  className="cancel-ride-btn" 

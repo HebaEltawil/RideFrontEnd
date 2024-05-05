@@ -44,6 +44,7 @@ export const DriverHomePage = ({driverData}) =>{
                 .then(result => {
                     console.log('Connected!');
                     connection.on(driverData.email, ride => {
+                        console.log(ride);
                         const jsonMap = JSON.parse(ride);
                         if(jsonMap['type'] === 'rideCreated')
                         {

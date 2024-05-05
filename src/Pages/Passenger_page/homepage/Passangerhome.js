@@ -10,7 +10,7 @@ export const PassangerHomePage = ()=>{
     const passengerEmail = email;
     const [rideTrigger, setTrigger] = useState(false);
     // const rideGoing=localStorage.getItem('rideGoing')
-    const rideID= localStorage.getItem('rideId');
+    
 
         useEffect(()=>{
             removeRideData();
@@ -19,7 +19,7 @@ export const PassangerHomePage = ()=>{
             .then(e=>{console.log(e.data);
             // if (e.data['rides'] !== null) {
                 e.data['rides']?.map(element => {
-                if((element.status!="paid"&&element.status!="cancelled")&& rideGoing==null){
+                if((element.status!=="paid"&&element.status!=="cancelled")&& rideGoing==null){
                     setRideGoing(element);
                     setTrigger(!rideTrigger);
                     console.log(1);
@@ -28,11 +28,13 @@ export const PassangerHomePage = ()=>{
                 rideData.push(element);
                 console.log(rideData);
                 console.log(element.id);
-                
+                return 1;
             })
             // }
             console.log(rideData);
+
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         },[email])
 
         // useEffect(() => {

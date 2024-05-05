@@ -37,3 +37,16 @@
       .card-text-1.from-to strong {
         margin-right: 0.5rem; /* Adjust the spacing between "From:" and "To:" */
       }
+      .selectRide {
+        width: 100%;
+        padding: 12px 20px;
+    
+        margin: 8px 0;
+        display: inline-block;
+        background-color:rgb(230, 234, 238);
+        color: rgb(19, 20, 20);
+        border-style:outset;
+        border-color:azure;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }

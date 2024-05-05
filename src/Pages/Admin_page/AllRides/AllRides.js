@@ -16,13 +16,14 @@ export const AllRidesPage = () =>{
                 response.data.forEach(element => {
                     allRides.push(element);
                 });
-                setLoading(false)}).catch((error)=>{console.log(error);if(error.response.status === 404){
-                    setLoading(false);
+                }).catch((error)=>{console.log(error);if(error.response.status === 404){
+                    
                 }})
                 axios.get(process.env.REACT_APP_API + "/Admin/getAllDriver").then((response)=>{
                     response.data.forEach(element => {
                         allDrivers.push(element);
-                    });
+                        setLoading(false);
+                    })
                 })
         };
         fetchData();
