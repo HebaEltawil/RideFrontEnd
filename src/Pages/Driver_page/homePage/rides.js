@@ -1,6 +1,5 @@
 import './css/style.css';
-import './css/all.min.css';
-import './css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {useEffect, useState} from "react";
 import {kUpdateId,kIsUpdated,clearUpdates} from "../updateRideGlobal";
 import axios from "axios";

@@ -75,6 +75,7 @@ export const HistoryPage = () => {
 
  
     return (
+      <body className="bodyHe">
         <div className="container" >
           {relevantRides.length > 0  ? (
             relevantRides.map((ride) => {
@@ -131,6 +132,7 @@ export const HistoryPage = () => {
             <p>No rides found.</p>
           )}
         </div>
+        </body>
       );
 }
 

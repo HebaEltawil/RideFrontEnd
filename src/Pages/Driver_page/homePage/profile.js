@@ -1,7 +1,6 @@
 import { useState } from "react";
 import './css/style.css';
-import './css/all.min.css';
-import './css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import axios from "axios";
 

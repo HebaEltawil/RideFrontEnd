@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { faSmoking} from '@fortawesome/free-solid-svg-icons';
 import { faBanSmoking,faStar } from "@fortawesome/free-solid-svg-icons";
@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './media_CardDrive.css';
 import './style_CardDrive.css';
 import img_UserPicture from '../../../../Assets/img/user_picture.png'
-import img_CityRegion from '../../../../Assets/img/Screenshot (31).png'
 import { UseAuth } from "../../../../Services/AuthProvider/AuthProvider";
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
@@ -106,8 +105,8 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
                                 )}
                       
                                 <div className="row d-flex flex-nowrap  w-100">
-                                  <div className="col-1"> <img src={img_CityRegion} alt="" /></div>
-                                  <div className="col-10 p-2 ms-4">
+                                  
+                                  <div className="col-25 p-2 ms-4">
                                     <p className="mb-1">{driver.city}</p>
                                     <p className="mb-1">{driver.region}</p>
                                   </div>
@@ -134,7 +133,7 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
                                     <p className="fs-4 fw-bold mb-0 pb-0">
                                       {price.toFixed(2)} L.E
                                     </p>
-                                 
+                                
                                   </>
                                 ) : (
                                   <></>

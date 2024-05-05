@@ -30,11 +30,7 @@ export const PassengerPage = () => {
   const [lat2 , setLat2]= useState('');
   const [long1 , setLong1]= useState();
   const [long2 , setLong2]= useState();
-  const [carType , setCarType]= useState('');
   const [smoking, setSmoking] = useState();
-  const [mainButtonTitle, setMainButtonTitle] = useState('Filter by');
-  const [regionFilter, setregionFilter] = useState('');
-  const [filterWord, setfilterWord] = useState(null);
   const [msg,setMsg] = useState('');
   const [isClicked,setisClicked]=useState(false);
   // const {  isLoading, error, filterDriversByFilters } = DriverData({ citySource,regionFilter,carType,smoking,filterWord });
@@ -77,7 +73,7 @@ export const PassengerPage = () => {
     useEffect(() => {
       axios.get("https://localhost:7115/getCities").then((r)=>{
         setMap(r.data["map"]);
-        setMsg('')
+        setMsg('') 
     })
       if (citySource && regionSource) {
         
@@ -116,7 +112,7 @@ export const PassengerPage = () => {
             setCitySource(selectedSource[1]);
             setregionSource(selectedSource[0]);
             handleCityChange(selectedSource[1]);
-            setfilterWord(selectedSource[1]);
+            
           }}
         >
             <optgroup defaultValue="">
@@ -166,7 +162,7 @@ export const PassengerPage = () => {
 
  const updateMainButtonTitle =  (newTitle) => {
   // Update the main button title based on car type and smoker status
-  setMainButtonTitle(newTitle);
+  
 };
 
  function filterBy() {
@@ -190,10 +186,9 @@ export const PassengerPage = () => {
                       className="w-50 h-25 border border-3 border-black rounded-3"
                       onChange={(event) => {
                       const selectedRegion = event.target.value;
-                      setregionFilter(selectedRegion);
                       updateMainButtonTitle(`Region -- ${selectedRegion}`);
                       handleRegionChange(selectedRegion);
-                      setfilterWord(selectedRegion);}}>
+                      }}>
                         <optgroup label="Region">
                         {citiesMap[citySource].map((regionData) => (
                             <option key={regionData.region} value={regionData.region}>
@@ -233,7 +228,7 @@ export const PassengerPage = () => {
                           handleSmokeChange(false);
                         }
                         setSmoking(isChecked);
-                        setfilterWord(isChecked);
+                        
                       }}
                     />
                     <label className="form-check-label fw-bold text-danger ms-1" htmlFor="flexSwitchCheckChecked">Yes</label>
@@ -246,10 +241,10 @@ export const PassengerPage = () => {
                   className="w-50 h-25 border border-3 border-black rounded-3"
                   onChange={(event) => {
                     const selectedCarType = event.target.value;
-                    setCarType(selectedCarType);
+                    
                     updateMainButtonTitle(`Car type -- ${selectedCarType}`);
                     handleCarChange(selectedCarType);
-                    setfilterWord(selectedCarType);}}>
+                    }}>
 
                   <optgroup label="Car Type">
                     <option value="" className="fs-5">Car Type</option>
@@ -287,7 +282,7 @@ export const PassengerPage = () => {
       style={{ height: "50px" }} placeholder="Search" aria-label="Search" 
       aria-describedby="search-addon" 
       onChange={(event)=>handleSearchChange(event.target.value)}/>
-      <span className="input-group-text border-0 bg-info" id="search-addon">
+      <span className="input-group-text border-0 bg-info" id="search-addon" style={{height:"50px"}}>
        <FontAwesomeIcon icon={faSearch} className='fas'></FontAwesomeIcon>
       </span>
     </div>
