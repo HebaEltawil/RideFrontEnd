@@ -142,7 +142,7 @@ function checkRole(){
 }
 
 return (
-    <body className="bodyR" style={{backgroundImage: `url(${img})`,backgroundSize: 'cover'}}>
+    <div className="bodyR" style={{backgroundImage: `url(${img})`,backgroundSize: 'cover'}}>
     <div className="container">
         <div className="d-flex justify-content-center h-100">
             <div className="card m-auto">
@@ -179,7 +179,8 @@ return (
                         <Dropdown.Item onClick={() => setRole('Passenger')}>Passenger</Dropdown.Item>
                         </DropdownButton> 
                         </div>
-                        {checkRole()}
+                        <div className="mt-3 d-flex justify-content-center">   {checkRole()}</div>
+                     
                         <div className="form-group mt-4 ">
                             <input type="submit" value="Register" className="btn login_btn"/>
                         </div>
@@ -188,6 +189,6 @@ return (
             </div>
         </div>
     </div>
-</body>
+</div>
 );
 }

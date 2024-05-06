@@ -7,6 +7,31 @@ const clear= ()=>{
     drivers=[];
     blockedDrivers=[];
 }
+function customSortingFunction(a, b) {
+    const statusOrder = { 'pending': 0, 'ongoing': 1, 'done': 2, 'paid': 3,'cancelled':4 };
+    const statusA = a.status;
+    const statusB = b.status;
+
+    if (statusOrder[statusA] < statusOrder[statusB]) {
+        return -1;
+    } else if (statusOrder[statusA] > statusOrder[statusB]) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+const sortallRides = ()=>{
+    allRides = allRides.sort(customSortingFunction);
+}
+const updateRide= (id,status) =>
+{
+    allRides.map(e => {
+        if(id === e['id'] )
+            {
+                e['status'] = status;
+            }
+    })
+}
 const removeDriver =(index)=>{
     drivers.splice(index,1);
 }
@@ -31,4 +56,4 @@ const clearAllRides= ()=>{
 const clearAllDrivers= ()=>{
     allDrivers=[];
 }
-export {drivers,blockedDrivers,clear,removeDriver,removeBlock,sortDriver,sortBlockedDriver,accountsPending,clearAccount,removeAccount,clearAllRides,allRides,allDrivers,clearAllDrivers};
+export {drivers,blockedDrivers,clear,removeDriver,removeBlock,sortDriver,sortBlockedDriver,updateRide,accountsPending,clearAccount,removeAccount,clearAllRides,allRides,allDrivers,clearAllDrivers,sortallRides};

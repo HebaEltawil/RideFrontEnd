@@ -43,7 +43,7 @@ export const BlocksPage = ()=> {
     return <> {blockedDrivers.length === 0 ? (<div style={{height:"100vh",width:"100%",textAlign:"center",alignContent:"center"}}>
         <p style={{color:"#5ed1d1"}}>No Blocked Drivers</p>
         </div>):(
-    <body className='bodyB'>
+    <div className='bodyB'>
     <div className="input-group rounded mt-4 w-75 mx-auto" style={{marginBottom:"70px"}}>
         <input type="search" className="form-control rounded border border-3 border-black rounded-3" 
         style={{ height: "50px" }} placeholder="Search" aria-label="Search" 
@@ -99,7 +99,7 @@ export const BlocksPage = ()=> {
             
         }
         
-        return <ReactCardFlip  isFlipped={isFlipped[index]} flipDirection='vertical'>
+        return <ReactCardFlip  isFlipped={isFlipped[index]} flipDirection='vertical' key={Math.random().toString(36).substr(2, 9)}>
         <div className="container">
         <div className=" border border-4 border-info rounded-4 w-75 h-auto boarderpadding " >
             <div className="row h-100 w-100 p-0 m-0">
@@ -171,6 +171,6 @@ export const BlocksPage = ()=> {
     </ReactCardFlip>
     })}
     </div>
-</body>)} 
+</div>)} 
 </>
 }

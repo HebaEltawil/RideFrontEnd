@@ -1,7 +1,7 @@
 import './media.css';
 import './dashboardStyle.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { blockedDrivers, drivers,removeDriver,sortDriver ,accountsPending} from '../data';
+import {drivers,blockedDrivers,sortDriver,removeDriver,accountsPending, allDrivers, clearAllDrivers, clearAccount, clear} from'../data';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faArrowDownShortWide,faChevronLeft,faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,7 @@ import Button from 'react-bootstrap/Button';
 // import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 // import Popover from 'react-bootstrap/Popover';
 import ReactCardFlip from 'react-card-flip';
+import * as signalR from '@microsoft/signalr';
 
 export const DriverDashboard = ()=> {
     let [search,setSearch] = useState('');
@@ -18,6 +19,26 @@ export const DriverDashboard = ()=> {
     let [isFlipped,setFlipped]= useState({});
     const [count, setCount] = useState({});
     const [availableDriversCount,setAvailableCount] = useState(0);
+    const fetchData = async () => {
+        clear();
+        clearAccount();
+        await axios.get(process.env.REACT_APP_API + "/Admin/getallPending").then((response)=>{
+            response.data.forEach(element => {
+                accountsPending.push(element);
+            });
+            }).catch((error)=>{if(error.response.status === 404){
+            }})
+        await axios.get(process.env.REACT_APP_API + "/Admin/getAllDriver").then((response)=>{
+                response.data.forEach(element => {
+                    element["blocked"] === true ? blockedDrivers.push(element) : drivers.push(element);
+                    allDrivers.push(element);
+                });
+                setBlockTrigger(prev=>!prev);
+            }).catch((e)=>{if(e.response.status === 404){
+                setBlockTrigger(prev=>!prev);
+            }})
+            
+    };
     const leftArrow = (index)=>{
         if (count[index] > 0) {
             setCount({ ...count, [index]: count[index] - 1 });
@@ -36,16 +57,32 @@ export const DriverDashboard = ()=> {
         axios.post(process.env.REACT_APP_API +"/Admin/blockDriver",{},{params:{email:email}}).then(()=>{
             blockedDrivers.push(drivers[index]);
             removeDriver(parseInt(index));
-            setBlockTrigger(!blocktrigger);
+            setBlockTrigger(prev=>!prev);
         })
     }
     useEffect(()=>{
         var tempAvailable = 0;
         drivers.forEach((element)=>{console.log(element); if(element['availability'] === true)tempAvailable+=1;} )
             setAvailableCount(tempAvailable);
+        const connection = new signalR.HubConnectionBuilder()
+        .withUrl("https://localhost:7115/realTime")
+        .build();
+  
+      connection.start()
+        .then(() => console.log("SignalR Connected"))
+        .catch(err => console.error("SignalR Connection Error: ", err));
+  
+      connection.on("UpdatePending", account => {
+        fetchData();
+      });
+      connection.on("ridesUpdated", rideToparse => {fetchData();});
+      connection.on("driversUpdated",m =>{fetchData();});
+      return () => {
+        connection.stop();
+      };
        
-    },[blocktrigger]);
-    return <> <body className='bodyD'>
+    },[]);
+    return <> <div className='bodyD'>
         <div className="tiles">
 <article className="tile">
         <div className="tile-header">
@@ -105,7 +142,7 @@ export const DriverDashboard = ()=> {
         aria-describedby="search-addon" 
         onChange={(e)=>setSearch(e.target.value)}/>
         <span className="input-group-text border-0" style={{background: "none"}}>
-        <FontAwesomeIcon icon={faArrowDownShortWide} className='ml-xl-5 sortIcon'  size='xl' onClick={()=>{sortDriver();setBlockTrigger(!blocktrigger)}}></FontAwesomeIcon>
+        <FontAwesomeIcon icon={faArrowDownShortWide} className='ml-xl-5 sortIcon'  size='xl' onClick={()=>{sortDriver();setBlockTrigger(prev=>!prev);}}></FontAwesomeIcon>
         </span>
         
     </div>
@@ -129,6 +166,9 @@ export const DriverDashboard = ()=> {
         if(item.rides){
             let rides= item.rides;
             feedback = item.rides.map((ride,index)=>{
+                if(ride['status'] == 'paid')
+                    {
+                    
                 return <div className='card-f'>
                     <strong>ID:</strong> {ride.id}<br/>
                     <strong>Passenger Email:</strong> {ride.passangerEmail}<br/>
@@ -140,7 +180,7 @@ export const DriverDashboard = ()=> {
                         <strong>Status:</strong> {ride.status}<br/>
                         <strong>Rating:</strong> {ride.rate}<br/>
                         <strong>Feedback:</strong> {ride.feedback===null? "no feedback": ride.feedback}<br/>
-                </div>
+                </div>}
             })
 
             for(const k in rides){
@@ -153,11 +193,11 @@ export const DriverDashboard = ()=> {
             }
         }
 
-        return <ReactCardFlip  isFlipped={isFlipped[index]} flipDirection='vertical'>
+        return <ReactCardFlip  isFlipped={isFlipped[index]} flipDirection='vertical' key={Math.random().toString(36).substr(2, 9)}>
         <div className="container">
         <div className=" border border-4 border-info rounded-4 w-75 h-auto boarderpadding " >
             <div className="row h-100 w-100 p-0 m-0">
-                <div className="col-2 ">
+                <div className="col-2 tocenter">
                     <div className="position-relative ">
                     <img src={profileImage} alt="Profile" className="rounded-circle mt-2" style={{ objectFit: "cover", width: "120px", height: "120px" }} />
                         <div className="w-100  h-25 rating_div position-absolute bottom-0">
@@ -174,18 +214,19 @@ export const DriverDashboard = ()=> {
                         {item.rating <2 &&
                         <input type="button" value="Block" className="btn btn-danger" onClick={()=>{block(item,index)}}/>}
                 </div>
-                <div className="col-2 " style={{color: "#5ed1d1"}}>
+                <div className="col-2 tocenter1" style={{color: "#5ed1d1", paddingRight:"30px"}}>
                     <p className="fs-3 fw-bold mb-0 pb-0">
                         {income.toFixed(2)}E£
                     </p>
                     <p className="">{item.availability? "Available": "Not Available"}</p>
-                    <Button className="btn btn-info" onClick={()=>{;setFlipped({
+                   
+                </div>
+                <Button style={{width:"100px",marginLeft:"auto"}} className="btn btn-info" onClick={()=>{;setFlipped({
             ...isFlipped,
             
                 [index]:true
             
         })}}>Feedback</Button>
-                </div>
             </div>
         </div>
         <br/>
@@ -222,7 +263,7 @@ export const DriverDashboard = ()=> {
     </ReactCardFlip>
     })}
     </div>
-</>)}</body>
+</>)}</div>
     </>
     
 }

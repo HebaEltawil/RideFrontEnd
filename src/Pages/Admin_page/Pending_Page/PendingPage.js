@@ -22,11 +22,11 @@ export const PendingPage = () => {
         fetchData();
         console.log(accountsPending);
     }, []);
-    return <body className='bodyP'>
+    return <div className='bodyP'>
     {loading ? (
                 <CircularProgress color="secondary" />
             ) : (
                 <PendingCard/>
             )}
-    </body> 
+    </div> 
 }

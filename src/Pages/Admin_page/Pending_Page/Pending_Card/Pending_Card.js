@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { accountsPending,removeAccount } from '../../data';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import * as signalR from '@microsoft/signalr';
 export const PendingCard = ()=> {
     let [cards,setCards]= useState([]);
     let [trigger,setTrigger]= useState(false);
@@ -23,6 +24,23 @@ export const PendingCard = ()=> {
     useEffect(()=>{
         pendingCards();
         console.log(cards);
+        const connection = new signalR.HubConnectionBuilder()
+        .withUrl("https://localhost:7115/realTime")
+        .build();
+  
+      connection.start()
+        .then(() => console.log("SignalR Connected"))
+        .catch(err => console.error("SignalR Connection Error: ", err));
+  
+      connection.on("UpdatePending", account => {
+
+
+        accountsPending.push(account);
+        setTrigger(prev=>!prev);
+      });
+      return () => {
+        connection.stop();
+      };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[trigger]);
     const pendingCards = ()=>{
@@ -33,7 +51,7 @@ export const PendingCard = ()=> {
             let account=accountsPending[key];
             console.log(account);
             if(account["role"] === "Passenger"){
-            temp.push(<div style={{alignContent:"start"}}>
+            temp.push(<div style={{alignContent:"start"}} key={Math.random().toString(36).substr(2, 9)}>
             <div className="card" style={{width: "18rem",height:"16rem",backgroundColor:"white",borderColor:"#5ed1d1"}}>
             <div className="cardPadding">
                 <h5 className="card-title" style={{color: "#5ed1d1"}}>{account["role"]}</h5>
@@ -54,7 +72,7 @@ export const PendingCard = ()=> {
     }
     else{
         temp.push(
-    <div style={{padding:"0"}}>
+    <div style={{padding:"0"}} key={Math.random().toString(36).substr(2, 9)}>
     <div className="card" style={{width: "18rem",backgroundColor:"white",borderColor:"#5ed1d1"}}>
     <div className="card-body">
         <h5 className="card-title" style={{color: "#5ed1d1"}}>{account["role"]}</h5>

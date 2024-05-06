@@ -1,24 +1,64 @@
-import { allRides,allDrivers } from '../../data';
+import { allRides,allDrivers,sortallRides, updateRide } from '../../data';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import '../AllRidesStyle.css';
-import { DropdownButton, DropdownItem } from 'react-bootstrap';
+import * as signalR from '@microsoft/signalr';
+
 
 export const RidesCard = ()=>{
     
     const [driverName,setDriverName] =useState('')
     const [driverEmail,setDriverEmail] =useState('');
     const [driversName,setDrivers]= useState([]);
+    const [,setTrigger] = useState(false);
     console.log(allDrivers)
-    
+ 
     useEffect(()=>{
+        const connection = new signalR.HubConnectionBuilder()
+        .withUrl("https://localhost:7115/realTime")
+        .build();
+  
+      connection.start()
+        .then(() => console.log("SignalR Connected"))
+        .catch(err => console.error("SignalR Connection Error: ", err));
+  
+      connection.on("ridesUpdated", rideToparse => {
+        
+        console.log(rideToparse);
+        if(rideToparse['type'] === 'rideCreated')
+            {
+                const ride = JSON.parse(rideToparse['data']);
+                const rideToadd = {};
+                console.log(JSON.parse(rideToparse['data']));
+                for (const key in ride) {
+                    if (Object.hasOwnProperty.call(ride, key)) {
+                        const lowerCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
+                        rideToadd[lowerCaseKey] = ride[key];
+                    }
+                }
+                allRides.push(rideToadd);
+                sortallRides();
+                setTrigger(prev => !prev);
+            }
+            else{
+                const ride = JSON.parse(rideToparse['data']);
+                updateRide(ride['Id'],ride['Status'])
+                sortallRides();
+                setTrigger(prev => !prev);
+            }
+      });
+
         console.log(allDrivers.length)
         const temp = allDrivers.map((item)=>{console.log(item);return(
-            <option value={item.username+','+item.email}>
+            <option value={item.username+','+item.email} key={Math.random().toString(36).substr(2, 9)}>
                 {item.username} | {item.email}
                 </option>)})
         setDrivers(temp)
-        console.log(temp)
+        console.log(temp);
+        
+        return () => {
+            connection.stop();
+          };
     },[])
 console.log(driversName);
 console.log(driverName);
@@ -32,14 +72,14 @@ return <>{allRides.length === 0?(<div style={{height:"100vh",width:"100%",textAl
         const value= e.target.value.split(',')
         setDriverName(value[0]);setDriverEmail(value[1])
     }} style={{borderStyle:"outset"}}>
-        <option value=",">Select Driver</option>
+        <option value="," key={Math.random().toString(36).substr(2, 9)}>Select Driver</option >
         {driversName}</select>
     </div>
 <div className='grid-container'>
 {allRides.filter((item) =>{
         return driverName === 'Driver Name' ? item : item.driverEmail.includes(driverEmail);
     }).map((item)=>{
-    return <div className="card-1 ridesCard" >
+    return <div className="card-1 ridesCard" key={Math.random().toString(36).substr(2, 9)}>
     <div className="card-body">
         <div className="card-text-1 from-to"><strong>From: </strong>{item.from} 
             <strong style={{marginLeft:"20px"}}>To:</strong> {item.to}</div>
