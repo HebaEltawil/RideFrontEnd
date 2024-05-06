@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; 
-import { Link } from 'react-router-dom'; 
+ 
 import { citiesMap,setMap } from "../../../data/citiesMap";
 import { DriverData } from './driverData';
 import { DriverCard } from './driver_card/driver_card';
 // import { motion } from 'framer-motion';
-import { DropdownButton, Dropdown, DropdownMenu } from 'react-bootstrap';
 import './style.css'
 import'bootstrap/dist/css/bootstrap.min.css'
 import'bootstrap/dist/js/bootstrap.bundle'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBanSmoking, faCarOn, faSearch, faStar, faStreetView } from '@fortawesome/free-solid-svg-icons'
+import {  faCarOn, faSearch,  faStreetView } from '@fortawesome/free-solid-svg-icons'
 
 export const PassengerPage = () => {
 
@@ -34,7 +33,7 @@ export const PassengerPage = () => {
   const [msg,setMsg] = useState('');
   const [isClicked,setisClicked]=useState(false);
   // const {  isLoading, error, filterDriversByFilters } = DriverData({ citySource,regionFilter,carType,smoking,filterWord });
-  const {  isLoading, error, filterDriversByFilters } = DriverData({ filters ,isClicked,setisClicked});
+  const {  filterDriversByFilters } = DriverData({ filters ,isClicked,setisClicked});
 
     const handleCityChange = (selectedCity) => {
       setFilters({ ...filters, city: selectedCity });
