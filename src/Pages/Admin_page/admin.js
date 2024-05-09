@@ -2,14 +2,13 @@ import axios from "axios";
 import './Driver_Dashboard/dashboardStyle.css'
 import { useEffect, useState } from 'react';
 import { DriverDashboard } from './Driver_Dashboard/Driver_Dashboard';
-import {drivers,blockedDrivers,clear,clearAccount,accountsPending, allDrivers, clearAllDrivers} from'./data';
+import {drivers,blockedDrivers,clear,clearAccount,accountsPending, allDrivers, clearAllDrivers, clearBlocked} from'./data';
 import CircularProgress from '@mui/material/CircularProgress';
 
 export const AdminPage =   () => {
     const [loading, setLoading] = useState(true);
   
     useEffect(()=>{
-        
         clear();
         clearAccount();
         clearAllDrivers();
@@ -32,8 +31,6 @@ export const AdminPage =   () => {
                 
         };
         fetchData();
-       
-  
     }, []);
 
     return <div className='bodyD'>

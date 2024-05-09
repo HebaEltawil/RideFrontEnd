@@ -126,7 +126,7 @@ export const ReservationRide = () => {
 
               <div className="fw-bold text-white rating-background" style={{background:"#5ed1d1"}}>
                 <FontAwesomeIcon icon={faStar} className='fa-solid fa-fw text-white' />
-                {rate}</div>
+                {parseFloat(rate).toFixed(2)}</div>
               </div>
 
             <div className="ride-bottom bg-white ">

@@ -38,14 +38,18 @@ export const PassengerPage = () => {
 
     const handleRegionChange = (region) => {
       setFilters({ ...filters, region: region });
+      setisClicked(true);
     };
 
     const handleCarChange = (car) => {
       setFilters({ ...filters, carType: car });
+      setisClicked(true);
+      
     };
 
     const handleSmokeChange = (Smoking) => {
       setFilters({ ...filters, smoking: Smoking });
+      setisClicked(true);
     };
 
     const handleSearchChange = (search) => {
@@ -180,6 +184,7 @@ export const PassengerPage = () => {
                     <select
                       name="select"
                       className="w-50 h-25 border border-3 border-black rounded-3"
+                      value={filters['region']}
                       onChange={(event) => {
                       const selectedRegion = event.target.value;
                       updateMainButtonTitle(`Region -- ${selectedRegion}`);
@@ -234,6 +239,7 @@ export const PassengerPage = () => {
               <div className="mt-2">
                 <select
                   name="select"
+                  value={filters['carType']}
                   className="w-50 h-25 border border-3 border-black rounded-3"
                   onChange={(event) => {
                     const selectedCarType = event.target.value;

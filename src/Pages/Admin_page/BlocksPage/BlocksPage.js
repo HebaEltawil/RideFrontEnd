@@ -69,9 +69,14 @@ export const BlocksPage = ()=> {
         if (!count.hasOwnProperty(index)) {
             count[index]=0;
         }
+
+
         if(item.rides){
             let rides= item.rides;
             feedback = item.rides.map((ride,index)=>{
+                if(ride['status'] === 'paid')
+                    {
+                    
                 return <div className='card-f'>
                     <strong>ID:</strong> {ride.id}<br/>
                     <strong>Passenger Email:</strong> {ride.passangerEmail}<br/>
@@ -83,8 +88,8 @@ export const BlocksPage = ()=> {
                         <strong>Status:</strong> {ride.status}<br/>
                         <strong>Rating:</strong> {ride.rate}<br/>
                         <strong>Feedback:</strong> {ride.feedback===null? "no feedback": ride.feedback}<br/>
-                </div>
-            })
+                </div>}
+            }).filter(item => item !== undefined);
 
             for(const k in rides){
                 if(rides[k]["status"] === "paid"){
@@ -93,23 +98,20 @@ export const BlocksPage = ()=> {
                 if(rides[k]["status"] === "paid" || rides[k]["status"] === "done"){
                     trips+=1;
                 }
-                
             }
-            
-            
         }
         
         return <ReactCardFlip  isFlipped={isFlipped[index]} flipDirection='vertical' key={Math.random().toString(36).substr(2, 9)}>
         <div className="container">
         <div className=" border border-4 border-info rounded-4 w-75 h-auto boarderpadding " >
             <div className="row h-100 w-100 p-0 m-0">
-                <div className="col-2 ">
+                <div className="col-2 tocenter">
                     <div className="position-relative ">
                     <img src={profileImage} alt="Profile" className="rounded-circle mt-2" style={{ objectFit: "cover", width: "120px", height: "120px" }} />
                         <div className="w-100  h-25 rating_div position-absolute bottom-0">
                             <div className="d-flex justify-content-center">
                                 <FontAwesomeIcon icon={faStar} style={{margin:"6px 0 auto 0",color:"#FFD700"}}/>
-                                <h4 className="fw-bold text-white ps-1 pe-2">{item.rating}</h4>
+                                <h4 className="fw-bold text-white ps-1 pe-2">{item.rating.toFixed(2)}</h4>
                             </div>
                         </div>
                     </div>
@@ -118,35 +120,33 @@ export const BlocksPage = ()=> {
                     <h3 className="mb-0 pb-0 ms-2" style={{color: "#5ed1d1"}}>{item.username}</h3>
                     <p style={{color: "#5ed1d1"}} className="fs-3 mb-0 pb-0 ">Total Trips: {trips} </p>
                         {item.rating <2 &&
-                        <input type="button" value="Unblock" className="btn btn-success" onClick={()=>{unBlock(item,index)}}/>}
+                        <input type="button" value="un block" className="btn btn-success" onClick={()=>{unBlock(item,index)}}/>}
                 </div>
-                <div className="col-2 " style={{color: "#5ed1d1"}}>
+                <div className="col-2 tocenter1" style={{color: "#5ed1d1", paddingRight:"30px"}}>
                     <p className="fs-3 fw-bold mb-0 pb-0">
-                        {income.toFixed(2)}
+                        {income.toFixed(2)}E£
                     </p>
                     <p className="">{item.availability? "Available": "Not Available"}</p>
-
-                    <Button className="btn btn-info" onClick={()=>{;setFlipped({
+                   
+                </div>
+                <Button style={{width:"100px",marginLeft:"auto"}} className="btn btn-info" onClick={()=>{;setFlipped({
             ...isFlipped,
             
                 [index]:true
             
         })}}>Feedback</Button>
-                    
-                    
-                </div>
             </div>
         </div>
         <br/>
     </div>
     {/***************** */}
-    <div style={{width: "75%", height: "auto"}}> {/* Change width and height properties */}
-    <div className="w-100 cardd mb-3" >
-        <div className="border border-4 border-info rounded-4 w-100 h-auto">
+    <div className="container">
+    <div className=" border border-4 border-info rounded-4 w-75 h-auto boarderpadding " >
             <h2 style={{marginLeft: '20px'}}>FeedBack</h2>
             <div className="d-flex align-items-center justify-content-between h-100 p-0 m-0">
-                <div className="col-2 d-flex align-items-center arrowIcon" style={{paddingLeft:"120px"}} >
-                    <FontAwesomeIcon icon={faChevronLeft} size="xl" onClick={()=>leftArrow(index)}/>
+                {feedback.length !== 0 ? (<><div className="col-2 d-flex align-items-center  arrowIcon" style={{paddingLeft:"120px"}} >
+                    {count[index] !== 0 && <FontAwesomeIcon icon={faChevronLeft} size="xl" onClick={()=>leftArrow(index)}/>}
+                    
                 </div>
                 <div className="col-8 p-2 h-100 feedCard">
                     <div  >
@@ -154,11 +154,11 @@ export const BlocksPage = ()=> {
                     </div>
                 </div>
                 <div className="col-2 d-flex align-items-center justify-content-end arrowIcon" style={{paddingRight:"120px"}}>
-                    <FontAwesomeIcon icon={faChevronRight} size="xl" onClick={()=> rightArrow(index, feedback.length)}/>
-                </div>
+                    {count[index] !== feedback.length-1 &&  <FontAwesomeIcon icon={faChevronRight} size="xl" onClick={()=> rightArrow(index, feedback.length)}/>}                  
+                </div></>):(<div style={{margin:"0 auto 0 auto"}} ><p>No feedback for this driver Yet</p></div>)}
             </div>
-            <div className="d-flex justify-content-end">
-                <button className="btn btn-info mr-3 mb-3" style={{marginRight: "20px"}} onClick={()=>{;setFlipped({
+            <div className="d-flex justify-content-end" style={{paddingTop:"20px"}}>
+                <button className="btn btn-info" style={{marginRight: "20px"}} onClick={()=>{;setFlipped({
             ...isFlipped,
             
                 [index]:false
@@ -166,7 +166,7 @@ export const BlocksPage = ()=> {
         })}}>Driver Information</button>
             </div>
         </div>
-    </div>
+        <br/>
 </div>
     </ReactCardFlip>
     })}

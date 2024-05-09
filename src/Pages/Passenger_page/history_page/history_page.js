@@ -94,7 +94,7 @@ export const HistoryPage = () => {
                             </div>
                             <div className="w-100 mx-auto text-center bg-info">
                             <div className="w-100 fs-5">
-                                <div className="fw-bold text-white"><FontAwesomeIcon icon={faStar} className='fa-solid fa-fw text-white' /> {driverDetail.rating}</div>
+                                <div className="fw-bold text-white"><FontAwesomeIcon icon={faStar} className='fa-solid fa-fw text-white' /> {parseFloat(driverDetail.rating).toFixed(2)}</div>
                             </div>
                             </div>
                         </div>
