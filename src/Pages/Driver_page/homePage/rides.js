@@ -60,8 +60,7 @@ export const Rides = ({driverData}) => {
             return ride;
         });
         const updatedDriverData = { ...localDriverData, rides: updatedRides };
-        localDriverData = updatedDriverData;
-        setIsActive(true);
+        setLocalDriverData(updatedDriverData);
         axios.patch(process.env.REACT_APP_API + "/Driver/acceptRide", null, {
             params: {
                 id:id
@@ -76,7 +75,7 @@ export const Rides = ({driverData}) => {
             const updatedDriverData = { ...localDriverData, rides: updatedRides };
             setLocalDriverData(updatedDriverData);
         })
-        
+        setIsActive(true);
     }
     function rejectRide(id)
     {
@@ -131,11 +130,16 @@ export const Rides = ({driverData}) => {
         })
     }
     function checkActive() {
+        let flag = false;
         for (const ride of localDriverData.rides) {
             if (ride.status === 'ongoing') {
+                flag = true;
                 setIsActive(true);
                 break;
             }
+        }
+        if(!flag){
+            setIsActive(false);
         }
     }
     useEffect(() => {

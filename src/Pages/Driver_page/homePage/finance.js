@@ -43,7 +43,7 @@ export const Finance = ({driverData, monthMoney}) => {
             <div className="w-100 text-center ms-4">
                 <div className="comment-section">
                     {Object.keys(isDaily? dayMoney : monthMoney).map((key)=> {
-                        return (<div className="comment" key={Math.random().toString(36).substr(2, 9)}>
+                        return (<div className="comment">
                             {key} : {isDaily ? dayMoney[key].toFixed(2) : monthMoney[key].toFixed(2)} L.E
                         </div>)
                     })}
