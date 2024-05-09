@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import React, {  useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSmoking} from '@fortawesome/free-solid-svg-icons';
 import { faBanSmoking } from "@fortawesome/free-solid-svg-icons";
@@ -9,7 +9,7 @@ import { UseAuth } from "../../../Services/AuthProvider/AuthProvider";
 import {  rideGoing,setRideGoing } from "../data";
 import './style1.css'
 import img_CityRegion from '../../../Assets/img/Screenshot (31).png'
-
+import Connection from '../../../Services/SignalR/SignalRConnection'
 
 
 
@@ -30,9 +30,18 @@ export const ReservationRide = () => {
   const [feedback, setFeedback] = useState('');
   const [userRating, setUserRating] = useState('');
   const [error, setError] = useState('');
+  const [,updateScreen] = useState(false);
     const {email}=UseAuth();
     console.log(email);
+  const connection = Connection;
 
+    useEffect(()=>{
+      connection.passWatchRideUpdated(email,ride=>{
+            rideGoing['status'] = ride;
+            console.log('in');
+            navigate('/');
+      })
+    },[])
 
     const cancelRide = async () => {
       console.log(rideGoing);
@@ -90,7 +99,7 @@ export const ReservationRide = () => {
     console.log(location);
     console.log("userRating",userRating);
     console.log("feedback",feedback);
-
+    console.log(rideGoing);
     if(rideGoing !== null){
     return (
       <div>
@@ -263,52 +272,3 @@ export const ReservationRide = () => {
   }
 
 }
-
-
-
-
-// {(rideGoing["status"] === "done" )&& (
-//   <>
-//     <p>Driver: {name}</p>
-//     <p>Rating: {rate}</p>
-//     {(smoke==true)?(
-//         <FontAwesomeIcon icon={faSmoking} />
-//     ):(<FontAwesomeIcon icon={faBanSmoking} />)}
-    
-//      {isPaying ? (
-//     <div>
-//       <input
-//         type="number"
-//         className="form-control rounded-pill"
-//         placeholder="Rating"
-//          min={1}
-//         max={5}
-//         value={userRating || 0}
-//         onChange={(e) => handleRatingChange(e)}
-//       />
-//       {error && <div style={{ color: 'red' }}>{error}</div>}
-//       <input
-//         type="text"
-//         className="form-control rounded-pill"
-//         placeholder="Feedback"
-//         value={feedback || ""}
-//         onChange={(e) => setFeedback(e.target.value)}
-//       />
-//       <input
-//         type="submit"
-//         value="ok"
-//         disabled={isDisabled()}
-//         className="btn login_btn"
-//         onClick={()=>{payAndFeedback();}} 
-//       />
-//     </div>
-//   ) : (
-//     <input
-//       type="submit"
-//       value="Pay"
-//       className="btn login_btn"
-//       onClick={handlePayClick} 
-//     />
-//   )}
-//   </>
-// )}

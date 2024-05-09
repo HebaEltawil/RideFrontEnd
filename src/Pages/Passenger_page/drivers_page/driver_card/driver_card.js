@@ -23,6 +23,8 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
     console.log(email);
 
     useEffect( () => {
+    
+ 
         if(regionSource!=='' && regionDest!== ''){
              axios.post(process.env.REACT_APP_API +"/Passanger/tripPrice", {
                 lat1: lat1,
@@ -81,10 +83,10 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
             <div className="container" >
                 {filterDriversByFilters.length > 0 ? (
                     filterDriversByFilters.map((driver) => (
-                        <div key={driver.email} className="w-100 cardd mb-3" >
-                          <div className="border border-4 border-info rounded-4 w-100 h-auto">
+                        <div key={driver.email} className="w-100 cardd mb-3 justify-content-center" >
+                          <div className="border border-4 border-info rounded-4 w-100 h-auto" style={{marginLeft:"auto",marginRight:"auto"}}>
                             <div className="row h-100 w-100 p-0 m-0">
-                              <div className="col-2">
+                              <div className='col-2'>
                                 <div className="">
                                   <div className="mt-2 text-center">
                                     <img src={driver.imagePath?'https://localhost:7115/'+driver.imagePath.replace(/\\/g,'/'):img_UserPicture} className="" style={{ height: "70px", width: "70px", borderRadius: "50%" }} alt="" />
@@ -127,7 +129,7 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
                                   )}
                                 </div>
                               </div>
-                              <div className="col-2" style={{ color: "#5ed1d1" }}>
+                              <div className='col-2' style={{ color: "#5ed1d1" }}>
                                 {price ? (
                                   <>
                                     <p className="fs-4 fw-bold mb-0 pb-0">

@@ -7,32 +7,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faArrowDownShortWide,faChevronLeft,faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-//import { CaretRight } from 'phosphor-react';
-// import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-// import Popover from 'react-bootstrap/Popover';
+import Connector from '../../../Services/SignalR/SignalRConnection'
 import ReactCardFlip from 'react-card-flip';
-import * as signalR from '@microsoft/signalr';
+
 
 export const DriverDashboard = ()=> {
     let [search,setSearch] = useState('');
-    let [blocktrigger,setBlockTrigger]= useState(false);
+    let [,setBlockTrigger]= useState(false);
     let [isFlipped,setFlipped]= useState({});
     const [count, setCount] = useState({});
-    const [availableDriversCount,setAvailableCount] = useState(0);
+    const [availableDriversCount,setAvailableCount] = useState(-1);
+    const connector = Connector;
     const fetchData = async () => {
         clear();
-        clearAccount();
-        await axios.get(process.env.REACT_APP_API + "/Admin/getallPending").then((response)=>{
-            response.data.forEach(element => {
-                accountsPending.push(element);
-            });
-            }).catch((error)=>{if(error.response.status === 404){
-            }})
         await axios.get(process.env.REACT_APP_API + "/Admin/getAllDriver").then((response)=>{
+            var tempAvailable = 0;
                 response.data.forEach(element => {
                     element["blocked"] === true ? blockedDrivers.push(element) : drivers.push(element);
+                    if(element['availability'] === true)tempAvailable+=1;
                     allDrivers.push(element);
                 });
+            setAvailableCount(tempAvailable);
                 setBlockTrigger(prev=>!prev);
             }).catch((e)=>{if(e.response.status === 404){
                 setBlockTrigger(prev=>!prev);
@@ -61,26 +56,22 @@ export const DriverDashboard = ()=> {
         })
     }
     useEffect(()=>{
-        var tempAvailable = 0;
-        drivers.forEach((element)=>{console.log(element); if(element['availability'] === true)tempAvailable+=1;} )
-            setAvailableCount(tempAvailable);
-        const connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://localhost:7115/realTime")
-        .build();
-  
-      connection.start()
-        .then(() => console.log("SignalR Connected"))
-        .catch(err => console.error("SignalR Connection Error: ", err));
-  
-      connection.on("UpdatePending", account => {
+        if(availableDriversCount == -1)
+            {
+                var tempAvailable = 0;
+                drivers.forEach((element)=>{console.log(element); if(element['availability'] === true)tempAvailable+=1;} )
+                    setAvailableCount(tempAvailable);
+            }
+     
+      connector.onPendingAccountRecieved(account=>{
+        accountsPending.push(account);
+      });
+      connector.onRidesUpdated(rideToParse=>{
         fetchData();
       });
-      connection.on("ridesUpdated", rideToparse => {fetchData();});
-      connection.on("driversUpdated",m =>{fetchData();});
-      return () => {
-        connection.stop();
-      };
-       
+      connector.onDriversUpdated(m=>{
+        fetchData();
+      });
     },[]);
     return <> <div className='bodyD'>
         <div className="tiles">
@@ -267,45 +258,3 @@ export const DriverDashboard = ()=> {
     </>
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//#58c8c8
-//style={{backgroundColor: 'grey', height: '300px', width: '750px'}}
-                //if(rides[k]["status"] === "paid"){
-                // feedback.push(
-                //     <Popover.Body>
-                //         <strong>Trip's ID:</strong> {rides[k]["id"]}<br/>
-                //         <strong>Trip's Rating:</strong> {rides[k]["rate"]}<br/>
-                //         <strong>Trip's Feedback:</strong> {rides[k]["feedback"]}<br/>
-                //         <strong>Passenger Email:</strong> {rides[k]["passangerEmail"]}<br/>
-                //         <strong>Passenger Name:</strong> {rides[k]["passanger"]["userName"]}<br/>
-                //         <strong>Trip's Status:</strong> {rides[k]["status"]}<br/>
-                //     </Popover.Body>
-                // );
-           //
-           //     var popover=( <Popover id="popover-positioned-bottom"> {feedback.length !== 0 ? feedback   
-        //     : <Popover.Body>
-        //     <strong>No Feedback Yet</strong>
-        // </Popover.Body>}</Popover>);
-        //else{
-            //     popover = (
-            //         <Popover id="popover-positioned-bottom">
-            //             <Popover.Body>
-            //                 <strong>No Trips yet</strong>
-            //             </Popover.Body>
-            //         </Popover>
-            //     );
-            // }

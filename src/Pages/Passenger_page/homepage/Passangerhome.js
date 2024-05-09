@@ -34,65 +34,10 @@ export const PassangerHomePage = ()=>{
             console.log(rideData);
 
         })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
         },[email])
 
-        // useEffect(() => {
-        //     const fetchPassengerData = async () => {
-        //       try {
-        //         removeRideData();
-        //         setRideGoing(null);
-        
-        //         const response = await axios.get(process.env.REACT_APP_API+"/Passanger/getPassengerByEmail/"+passengerEmail);
-        //         const passenger = response.data;
-        
-        //         const ongoingRide = passenger.rides?.find(
-        //             (ride) => ['pending', 'ongoing', 'done'].includes(ride.status) && ride.id === rideID
-        //           );
-
-        //          setRideGoing(ongoingRide); 
-        //          if(!ongoingRide){
-        //             setRideGoing(null);
-        //          }
-                // if (passenger.rides && Array.isArray(passenger.rides)) {
-                //   passenger.rides.forEach((element) => {
-                //     if (
-                //       (element.status !== 'paid' && element.status !== 'cancelled') &&
-                //       rideGoing == null && element.id === rideID
-                //     ) {
-                //       setRideGoing(element);
-                //       setTrigger(!rideTrigger);
-                      
-                //     }
-        
-                //     rideData.push(element);
-                //   });
-                // }
-                // console.log(rideData);
-                // console.log(rideGoing);
-                // setLoading(false); // Data has been loaded
-        //       } catch (err) {
-        //         console.error('Error fetching passenger data:', err);
-        //         // setError(err);
-        //         // setLoading(false);
-        //       }
-        //     };
-        
-        // fetchPassengerData();
-        // }, [email]);
-
-
-    // useEffect(() => {
-    // // removeRideData();
-    // fetchPassengerData(); // Fetch initially
-    // const intervalId = setInterval(() => {
-    //     // setRide(currentRide);
-    //     // removeRideData();
-    //     fetchPassengerData(); // Re-fetch every 10 seconds
-    // }, 2000); // Adjust the polling interval as needed
-
-    // return () => clearInterval(intervalId); // Cleanup interval on component unmount
-    // }, [email]); // Depend on email to refetch if email changes      
+  
 
     return (
         
@@ -103,25 +48,3 @@ export const PassangerHomePage = ()=>{
 };
 
 
-// .then((response) => {
-//     const passenger = response.data;
-
-    // if (passenger.rides && Array.isArray(passenger.rides)) {
-//       passenger.rides.forEach((element) => {
-//         if (
-//           (element.status !== "paid" || element.status !== "cancelled") &&
-//           rideGoing == null
-//         ) {
-//           setRideGoing(element);
-//           setTrigger(!rideTrigger);
-//         }
-//         console.log(rideGoing);
-//         rideData.push(element);
-//         console.log(rideData);
-//       });
-//     }
-//   })
-//   .catch((error) => {
-//     console.error("Error fetching passenger data:", error);
-//   });
-// }, []);

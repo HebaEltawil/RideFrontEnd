@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import '../AllRidesStyle.css';
 import * as signalR from '@microsoft/signalr';
-
+import Connector from '../../../../Services/SignalR/SignalRConnection'
 
 export const RidesCard = ()=>{
     
@@ -12,18 +12,9 @@ export const RidesCard = ()=>{
     const [driversName,setDrivers]= useState([]);
     const [,setTrigger] = useState(false);
     console.log(allDrivers)
- 
+    const connector = Connector;
     useEffect(()=>{
-        const connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://localhost:7115/realTime")
-        .build();
-  
-      connection.start()
-        .then(() => console.log("SignalR Connected"))
-        .catch(err => console.error("SignalR Connection Error: ", err));
-  
-      connection.on("ridesUpdated", rideToparse => {
-        
+        connector.onRidesUpdated(rideToparse => { 
         console.log(rideToparse);
         if(rideToparse['type'] === 'rideCreated')
             {
@@ -47,18 +38,13 @@ export const RidesCard = ()=>{
                 setTrigger(prev => !prev);
             }
       });
-
-        console.log(allDrivers.length)
+     console.log(allDrivers.length)
         const temp = allDrivers.map((item)=>{console.log(item);return(
             <option value={item.username+','+item.email} key={Math.random().toString(36).substr(2, 9)}>
                 {item.username} | {item.email}
                 </option>)})
         setDrivers(temp)
         console.log(temp);
-        
-        return () => {
-            connection.stop();
-          };
     },[])
 console.log(driversName);
 console.log(driverName);

@@ -51,6 +51,7 @@ export const DriverHomePage = ({driverData}) =>{
                             const jsonData = JSON.parse(jsonMap['data']);
                             const newData = {};
                             for (const key in jsonData) {
+                                if(key=='$id')continue;
                                 if (Object.hasOwnProperty.call(jsonData, key)) {
                                     const lowerCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
                                     newData[lowerCaseKey] = jsonData[key];
@@ -90,7 +91,11 @@ export const DriverHomePage = ({driverData}) =>{
                     });
                 })
                 .catch(e => console.log('Connection failed: ', e));
+                
         }
+        return () => {
+            connection.stop();
+          };
     }, [driverData]);
     if (isLoading) {
         return <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>

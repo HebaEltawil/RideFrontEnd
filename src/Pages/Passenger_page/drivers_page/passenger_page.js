@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; 
- 
 import { citiesMap,setMap } from "../../../data/citiesMap";
 import { DriverData } from './driverData';
 import { DriverCard } from './driver_card/driver_card';
-// import { motion } from 'framer-motion';
 import './style.css'
 import'bootstrap/dist/css/bootstrap.min.css'
 import'bootstrap/dist/js/bootstrap.bundle'
@@ -32,7 +30,6 @@ export const PassengerPage = () => {
   const [smoking, setSmoking] = useState();
   const [msg,setMsg] = useState('');
   const [isClicked,setisClicked]=useState(false);
-  // const {  isLoading, error, filterDriversByFilters } = DriverData({ citySource,regionFilter,carType,smoking,filterWord });
   const {  filterDriversByFilters } = DriverData({ filters ,isClicked,setisClicked});
 
     const handleCityChange = (selectedCity) => {
@@ -258,8 +255,7 @@ export const PassengerPage = () => {
             <div className="modal-footer" >
               <button type="button" className="btn btn-secondary" 
               onClick={()=>{resetIsClicked();resetFilters()}}>Clear</button>
-              <button type="button" className="btn btn-primary" data-bs-dismiss="modal" 
-              onClick={()=>setisClicked(true)}>Save changes</button>
+  
             </div>
           </div>
         </div>
@@ -286,7 +282,7 @@ export const PassengerPage = () => {
       </span>
     </div>
 
-    <div className="mx-auto mt-4 p-2" style={{ width: "75%", maxHeight: "65vh", overflowY: "scroll" }}>
+    <div className="mx-auto mt-4 scroll-container">
 
     {DriverCard({filterDriversByFilters,citySource,cityDest,regionSource,regionDest,lat1,lat2,long1,long2})}
 

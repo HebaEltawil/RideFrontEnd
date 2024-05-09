@@ -60,7 +60,8 @@ export const Rides = ({driverData}) => {
             return ride;
         });
         const updatedDriverData = { ...localDriverData, rides: updatedRides };
-        setLocalDriverData(updatedDriverData);
+        localDriverData = updatedDriverData;
+        setIsActive(true);
         axios.patch(process.env.REACT_APP_API + "/Driver/acceptRide", null, {
             params: {
                 id:id
@@ -75,7 +76,7 @@ export const Rides = ({driverData}) => {
             const updatedDriverData = { ...localDriverData, rides: updatedRides };
             setLocalDriverData(updatedDriverData);
         })
-        setIsActive(true);
+        
     }
     function rejectRide(id)
     {

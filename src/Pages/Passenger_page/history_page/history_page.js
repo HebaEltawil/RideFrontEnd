@@ -85,7 +85,7 @@ export const HistoryPage = () => {
               return (
                 <div key={ride.id} className="w-100 cardd mb-3">
                     
-                    <div className="border border-4 border-info rounded-4 w-100 h-auto">
+                    <div className="border border-4 border-info rounded-4 w-100 h-auto" style={{marginLeft:"auto",marginRight:"auto"}}>
                     <div className="row h-100 w-100 p-0 m-0">
                         <div className="col-2">
                         <div className="">
