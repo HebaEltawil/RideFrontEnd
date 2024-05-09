@@ -1,7 +1,7 @@
 import './media.css';
 import './dashboardStyle.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {drivers,blockedDrivers,sortDriver,removeDriver,accountsPending, allDrivers, clearAllDrivers, clearAccount, clear} from'../data';
+import {drivers,blockedDrivers,sortDriver,removeDriver,accountsPending, allDrivers, clearAllDrivers, clearAccount, clear, clearBlocked} from'../data';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faArrowDownShortWide,faChevronLeft,faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -19,7 +19,10 @@ export const DriverDashboard = ()=> {
     const [availableDriversCount,setAvailableCount] = useState(-1);
     const connector = Connector;
     const fetchData = async () => {
+        console.log('in');
         clear();
+        clearBlocked();
+       clearAllDrivers();
         await axios.get(process.env.REACT_APP_API + "/Admin/getAllDriver").then((response)=>{
             var tempAvailable = 0;
                 response.data.forEach(element => {
@@ -28,10 +31,11 @@ export const DriverDashboard = ()=> {
                     allDrivers.push(element);
                 });
             setAvailableCount(tempAvailable);
-                setBlockTrigger(prev=>!prev);
+               
             }).catch((e)=>{if(e.response.status === 404){
                 setBlockTrigger(prev=>!prev);
             }})
+            setBlockTrigger(prev=>!prev);
             
     };
     const leftArrow = (index)=>{
@@ -49,7 +53,7 @@ export const DriverDashboard = ()=> {
         driver["blocked"]=true;
         const email = driver["email"];
         console.log(email);
-        axios.post(process.env.REACT_APP_API +"/Admin/blockDriver",{},{params:{email:email}}).then(()=>{
+        axios.post(process.env.REACT_APP_API +"/Admin/blockDriver",{},{params:{email:email}}).then((e)=>{
             blockedDrivers.push(drivers[index]);
             removeDriver(parseInt(index));
             setBlockTrigger(prev=>!prev);
@@ -63,15 +67,15 @@ export const DriverDashboard = ()=> {
                     setAvailableCount(tempAvailable);
             }
      
-      connector.onPendingAccountRecieved(account=>{
-        accountsPending.push(account);
-      });
-      connector.onRidesUpdated(rideToParse=>{
-        fetchData();
-      });
-      connector.onDriversUpdated(m=>{
-        fetchData();
-      });
+            connector.onPendingAccountRecieved(account=>{
+                accountsPending.push(account);
+              });
+              connector.onRidesUpdated(rideToParse=>{
+                fetchData();
+              });
+              connector.onDriversUpdated(m=>{
+                fetchData();
+              });
     },[]);
     return <> <div className='bodyD'>
         <div className="tiles">
@@ -157,7 +161,7 @@ export const DriverDashboard = ()=> {
         if(item.rides){
             let rides= item.rides;
             feedback = item.rides.map((ride,index)=>{
-                if(ride['status'] == 'paid')
+                if(ride['status'] === 'paid')
                     {
                     
                 return <div className='card-f'>
@@ -172,7 +176,7 @@ export const DriverDashboard = ()=> {
                         <strong>Rating:</strong> {ride.rate}<br/>
                         <strong>Feedback:</strong> {ride.feedback===null? "no feedback": ride.feedback}<br/>
                 </div>}
-            })
+            }).filter(item => item !== undefined);
 
             for(const k in rides){
                 if(rides[k]["status"] === "paid"){
@@ -194,7 +198,7 @@ export const DriverDashboard = ()=> {
                         <div className="w-100  h-25 rating_div position-absolute bottom-0">
                             <div className="d-flex justify-content-center">
                                 <FontAwesomeIcon icon={faStar} style={{margin:"6px 0 auto 0",color:"#FFD700"}}/>
-                                <h4 className="fw-bold text-white ps-1 pe-2">{item.rating}</h4>
+                                <h4 className="fw-bold text-white ps-1 pe-2">{item.rating.toFixed(2)}</h4>
                             </div>
                         </div>
                     </div>

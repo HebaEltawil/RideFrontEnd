@@ -56,4 +56,7 @@ const clearAllRides= ()=>{
 const clearAllDrivers= ()=>{
     allDrivers=[];
 }
-export {drivers,blockedDrivers,clear,removeDriver,removeBlock,sortDriver,sortBlockedDriver,updateRide,accountsPending,clearAccount,removeAccount,clearAllRides,allRides,allDrivers,clearAllDrivers,sortallRides};
+const clearBlocked = ()=>{
+    blockedDrivers=[];
+}
+export {drivers,blockedDrivers,clear,removeDriver,clearBlocked,removeBlock,sortDriver,sortBlockedDriver,updateRide,accountsPending,clearAccount,removeAccount,clearAllRides,allRides,allDrivers,clearAllDrivers,sortallRides};

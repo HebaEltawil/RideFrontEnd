@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
-import { faSmoking} from '@fortawesome/free-solid-svg-icons';
+import { faCar, faSmoking} from '@fortawesome/free-solid-svg-icons';
 import { faBanSmoking,faStar } from "@fortawesome/free-solid-svg-icons";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './media_CardDrive.css';
@@ -10,6 +10,7 @@ import { UseAuth } from "../../../../Services/AuthProvider/AuthProvider";
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
 import { setDriverRating, setDriverSmoking, setDriverUserName, setRideGoing, setimagePath, setrideId,setfrom,setto } from "../../data";
+import { Car } from "phosphor-react";
 
 
 export const DriverCard = ({filterDriversByFilters,citySource,cityDest
@@ -93,7 +94,7 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
                                   </div>
                                   <div className="w-100 mx-auto text-center bg-info">
                                     <div className="w-100 fs-5">
-                                      <div className="fw-bold text-white"><FontAwesomeIcon icon={faStar} className='fa-solid fa-fw text-white' /> {driver.rating}</div>
+                                      <div className="fw-bold text-white"><FontAwesomeIcon icon={faStar} className='fa-solid fa-fw text-white' /> {driver.rating.toFixed(2)}</div>
                                     </div>
                                   </div>
                                 </div>
@@ -111,6 +112,7 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
                                   <div className="col-25 p-2 ms-4">
                                     <p className="mb-1">{driver.city}</p>
                                     <p className="mb-1">{driver.region}</p>
+                                    <div > <FontAwesomeIcon style={{display:"inline-block"}} icon={faCar} ></FontAwesomeIcon> <p style={{display:"inline-block"}}>{driver.carType}</p></div>
                                   </div>
                                 </div>
                                 <div className="form-group">
