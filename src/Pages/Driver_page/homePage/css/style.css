@@ -50,3 +50,36 @@ html,body{
     color: black;
     background-color: gray;
 }
+.driverProfileMedia{
+    width: 35%;
+}
+.ridesCss{
+    width: 60%;
+    max-height: 90vh;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none
+}
+.activeMargin{
+    margin-top: 28%;
+}
+@media (max-width: 1000px)  {
+    .driverProfileMedia{
+        width: 100%;
+    }
+    .driverMedia{
+        display: block !important;
+    }
+    .ridesCss{
+        overflow-y: unset;
+        width: 100%;
+
+    }
+    .cardMargin{
+        margin-left: 23%;
+    }
+    .activeMargin{
+        margin-top: 1%;
+    }
+}

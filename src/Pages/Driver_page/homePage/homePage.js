@@ -95,16 +95,16 @@ export const DriverHomePage = ({driverData}) =>{
     if (isLoading) {
         return <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
 
-        </div>; // Display loading screen while fetching data
+        </div>;
     }
     return (
         <>
-            <div className="container mx-auto mt-3 d-flex justify-content-center ">
-                <div style={{width: "35%"}}>
+            <div className={"container mx-auto mt-3 d-flex driverMedia justify-content-center "}>
+                <div className={"driverProfileMedia"}>
                     <Profile driverData={localDriverData} monthMoney={monthMoney}/>
                     <Finance driverData={localDriverData} monthMoney={monthMoney}/>
                 </div>
-                <div className="ms-4 p-1" style={{width: '60%', maxHeight: '90vh', overflowY: 'scroll', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', MsOverflowStyle: 'none'}}>
+                <div className="ms-4 p-1 ridesCss">
                     {localDriverData.rides === null || localDriverData.rides.length === 0 ? null : (<Rides driverData={localDriverData}/>)}
                 </div>
             </div>

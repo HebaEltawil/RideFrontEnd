@@ -35,9 +35,11 @@ export const LoginPage = () => {
              let role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
              let email = decodedToken.email;
              if(decodedToken){
+                axios.defaults.headers.common["Authorization"] = "Bearer " + s.data.token;
                 setToken(s.data.token);
                 setRole(role);
                 setEmail(email);
+
              }
             navigate("/", { replace: true });
             setLoading(false);

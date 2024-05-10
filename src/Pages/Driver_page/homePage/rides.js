@@ -168,11 +168,11 @@ export const Rides = ({driverData}) => {
     }, [driverData]);
     console.log("something updated rides page");
     return (
-        <div style = {isActive ? {marginTop: "28%"} : null}>
+        <div className={isActive? "activeMargin" : ""}>
             {localDriverData.rides.map((ride) => (
                  (isActive && ride.status !== 'ongoing') || (!isActive && ride.status !== 'pending') ? null:
                     <div className="w-100 cardd mb-3">
-                        <div className="border border-4 border-info rounded-4 w-100 h-auto">
+                        <div className="border border-4 border-info rounded-4 w-100 h-auto cardMargin">
                             <div className="row h-100 w-100 p-0 m-0">
                                 <div className="col-2">
                                     <div className="">

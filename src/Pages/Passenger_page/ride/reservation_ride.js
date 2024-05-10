@@ -39,8 +39,13 @@ export const ReservationRide = () => {
       connection.passWatchRideUpdated(email,ride=>{
             rideGoing['status'] = ride;
             console.log('in');
+            if(ride === "cancelled")
+            {
+              setRideGoing(null)
+            }
             navigate('/');
       })
+
     },[])
 
     const cancelRide = async () => {
@@ -66,11 +71,13 @@ export const ReservationRide = () => {
           
           console.log("userRating=",userRating);
           await axios.patch(`${process.env.REACT_APP_API}/Passanger/payAndFeedback?id=${rideID}&rating=${userRating}&feedback=${feedback}`)
-          .then(response => console.log(response.data))
+          .then(response => {
+            setRideGoing(null);
+            navigate("/PassengerPage");
+          })
         } catch (error) {
           console.error("Error paying for ride:", error);
         }
-        navigate("/PassengerPage");
       }
       }
 

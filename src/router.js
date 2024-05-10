@@ -17,9 +17,13 @@ import {PassengerPage} from './Pages/Passenger_page/drivers_page/passenger_page'
 import {HistoryPage} from './Pages/Passenger_page/history_page/history_page';
 import { ReservationRide } from "./Pages/Passenger_page/ride/reservation_ride";
 import { PassangerHomePage } from "./Pages/Passenger_page/homepage/Passangerhome";
+import {useEffect} from "react";
+import axios from "axios";
 
 const Routes = () => {
   const { token,role } = UseAuth();
+
+    axios.defaults.headers.common["Authorization"] = "Bearer " + token;
 
   // Define routes accessible only to authenticated users
   const routesForAuthenticatedAdmin = [

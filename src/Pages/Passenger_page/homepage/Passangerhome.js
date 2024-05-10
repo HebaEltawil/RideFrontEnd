@@ -6,7 +6,7 @@ import { PassengerPage } from "../drivers_page/passenger_page";
 import { ReservationRide } from "../ride/reservation_ride";
 
 export const PassangerHomePage = ()=>{
-    const {email} = UseAuth();
+    const {email,token} = UseAuth();
     const passengerEmail = email;
     const [rideTrigger, setTrigger] = useState(false);
     // const rideGoing=localStorage.getItem('rideGoing')
@@ -15,10 +15,12 @@ export const PassangerHomePage = ()=>{
         useEffect(()=>{
             removeRideData();
             setRideGoing(null);
-            axios.get(process.env.REACT_APP_API+"/Passanger/getPassengerByEmail/"+passengerEmail)
+            console.log(token);
+            axios.get(process.env.REACT_APP_API+"/Passanger/getPassengerByEmail/"+passengerEmail,{headers: {"Authorization" : "Bearer "+token} })
             .then(e=>{console.log(e.data);
             // if (e.data['rides'] !== null) {
                 e.data['rides']?.map(element => {
+
                 if((element.status!=="paid"&&element.status!=="cancelled")&& rideGoing==null){
                     setRideGoing(element);
                     setTrigger(!rideTrigger);
@@ -40,7 +42,6 @@ export const PassangerHomePage = ()=>{
   
 
     return (
-        
         <>
         {rideGoing==null ?(<PassengerPage/>):(<ReservationRide />)}
         </>
