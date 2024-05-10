@@ -28,7 +28,7 @@ const navigate = useNavigate();
 useEffect(()=>{
     axios.get("https://localhost:7115/getCities").then((r)=>{
         setMap(r.data["map"]);
-        setMsg('')
+        setMsg(prev=>prev);
     })
 
 })
@@ -72,7 +72,7 @@ const singUp = (e) => {
         passengerRegister(p);
     }
     else if (role === 'Driver'){
-        if( email.trim === "" || userName.trim === "" || gender.trim === "" || pass.trim === ""|| passConf.trim === "" || carType.trim === "" || city.trim === "" || region.trim === "" || smoker.trim === "" || file === null){
+        if( email.trim === "" || userName.trim === "" || gender.trim === "" || pass.trim === ""|| passConf.trim === "" || carType === 'Car Type' || city === 'City' || region === 'Region' || smoker.trim === "" || file === null){
             setMsg("Please fill all fields");
             return;
         }
@@ -140,7 +140,7 @@ function checkRole(){
         );
     }
 }
-
+console.log(msg);
 return (
     <div className="bodyR" style={{backgroundImage: `url(${img})`,backgroundSize: 'cover'}}>
     <div className="container1">

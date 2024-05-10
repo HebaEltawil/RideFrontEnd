@@ -24,7 +24,10 @@ export const DriverCard = ({filterDriversByFilters,citySource,cityDest
     console.log(email);
 
     useEffect( () => {
-    
+      if (performance.navigation.type === 1) {
+       navigate('/');
+  
+      }
  
         if(regionSource!=='' && regionDest!== ''){
              axios.post(process.env.REACT_APP_API +"/Passanger/tripPrice", {

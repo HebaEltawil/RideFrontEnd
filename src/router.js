@@ -25,11 +25,11 @@ const Routes = () => {
 
     axios.defaults.headers.common["Authorization"] = "Bearer " + token;
 
-  // Define routes accessible only to authenticated users
+
   const routesForAuthenticatedAdmin = [
     {
       path: "/",
-      element: <><Navbar/> <ProtectedRoute /></>, // Wrap the component in ProtectedRoute
+      element: <><Navbar/> <ProtectedRoute /></>, 
       children: [
         {
           path: "/",
@@ -59,7 +59,7 @@ const Routes = () => {
 const routesForAuthenticatedDriver = [
   {
     path: "/",
-    element: <><NavbarDriver/> <ProtectedRoute /></>, // Wrap the component in ProtectedRoute
+    element: <><NavbarDriver/> <ProtectedRoute /></>,
     children: [
       {
         path: "/",
@@ -74,7 +74,7 @@ const routesForAuthenticatedDriver = [
   },
   {
       path: "*",
-      element:<DriverPage/>
+      element:<><Navbar/><DriverPage/></>
   }
 ];
 const routesForAuthenticatedPassenger = [
@@ -100,15 +100,15 @@ const routesForAuthenticatedPassenger = [
         path: "/history", // localhost:3000/history
         element: <HistoryPage />
       },
-      {
-        path: "/reservation", // localhost:3000/reservation
-        element: <ReservationRide />
-      },
+      // {
+      //   path: "/reservation", // localhost:3000/reservation
+      //   element: <ReservationRide />
+      // },
     ],
   },
   {
       path: "*",
-      element:<><Header/><ProtectedRoute /></>
+      element:<><Header/><PassangerHomePage /></>
   }
 ];
 

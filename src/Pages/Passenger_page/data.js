@@ -8,6 +8,9 @@ const removeRideData = () => {
 
     rideData=[];
 }
+const setRideData = (data)=>{
+    rideData = data;
+}
 const setRideGoing = (e)=>{
     rideGoing = e;
     // localStorage.setItem('rideGoing',e)
@@ -48,7 +51,7 @@ const setimagePath = (e)=>{
 }
 
 export {rideData,removeRideData,rideGoing,setRideGoing,setimagePath,
-setDriverRating,setDriverSmoking,setDriverUserName,setrideId,setfrom,setto};
+setDriverRating,setDriverSmoking,setDriverUserName,setrideId,setfrom,setto,setRideData};
 
 
 

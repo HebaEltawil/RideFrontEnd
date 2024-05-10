@@ -35,7 +35,7 @@ export const HistoryPage = () => {
 
 
     const [driverDetails, setDriverDetails] = useState({});
-    const relevantRides = rideData.filter(ride => ["paid", "cancelled"].includes(ride.status));
+    const relevantRides = rideData === null || rideData === undefined?[] :rideData.filter(ride => ["paid", "cancelled"].includes(ride.status));
 
     useEffect(() => {
       const getDriver = async (driverEmail) => {
@@ -52,20 +52,24 @@ export const HistoryPage = () => {
       const fetchDriverDetails = async () => {
         const details = {};
         // Fetch driver details for each ride and store them in a dictionary
-        for (const ride of rideData) {
-          if (ride.driverEmail && !details[ride.driverEmail]) {
-            const driverData = await getDriver(ride.driverEmail);
-            console.log(driverData);
-            if (driverData) {
-              details[ride.driverEmail] = {
-                userName: driverData.username,
-                rating: driverData.rating,
-                smoking: driverData.smoking,
-                imagePath: driverData.imagePath?'https://localhost:7115/'+driverData.imagePath.replace(/\\/g,'/'):img_UserPicture,
-              };
+      if(  rideData !== null && rideData !== undefined)
+        {
+          for (const ride of rideData) {
+            if (ride.driverEmail && !details[ride.driverEmail]) {
+              const driverData = await getDriver(ride.driverEmail);
+              console.log(driverData);
+              if (driverData) {
+                details[ride.driverEmail] = {
+                  userName: driverData.username,
+                  rating: driverData.rating,
+                  smoking: driverData.smoking,
+                  imagePath: driverData.imagePath?'https://localhost:7115/'+driverData.imagePath.replace(/\\/g,'/'):img_UserPicture,
+                };
+              }
             }
           }
         }
+      
         console.log(details);
         setDriverDetails(details); // Store all driver details in state
       };

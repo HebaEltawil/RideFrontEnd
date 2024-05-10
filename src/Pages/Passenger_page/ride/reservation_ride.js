@@ -10,6 +10,7 @@ import {  rideGoing,setRideGoing } from "../data";
 import './style1.css'
 import img_CityRegion from '../../../Assets/img/Screenshot (31).png'
 import Connection from '../../../Services/SignalR/SignalRConnection'
+import { ImageList } from "@mui/material";
 
 
 
@@ -17,15 +18,13 @@ export const ReservationRide = () => {
 
   const location = useLocation();
   const navigate =useNavigate();
-  
-  const rate=localStorage.getItem('rating');
-  const smoke=localStorage.getItem('smoking');
-  const name =localStorage.getItem('userName');
-  const rideID=localStorage.getItem('rideId');
-  const image=localStorage.getItem('imagePath');
-  const from=localStorage.getItem('from');
-  const to=localStorage.getItem('to');
-
+  const rate=rideGoing['driver']['rating'];
+  const smoke=rideGoing['smoking'];
+  const name =rideGoing['driver']['username'];
+  const rideID=rideGoing['id'];
+  const image=rideGoing['driver']['imagePath'];
+  const from=rideGoing['from'];
+  const to=rideGoing['to'];
   const [isPaying, setIsPaying] = useState(false); 
   const [feedback, setFeedback] = useState('');
   const [userRating, setUserRating] = useState('');
@@ -44,7 +43,7 @@ export const ReservationRide = () => {
               setRideGoing(null)
             }
             navigate('/');
-      })
+      });
 
     },[])
 
@@ -66,6 +65,7 @@ export const ReservationRide = () => {
   
     // Function to pay and provide feedback
     const payAndFeedback = async () => {
+      console.log(rideGoing);
         if(userRating!==''  && feedback!=='' ){
         try {
           
@@ -124,9 +124,8 @@ export const ReservationRide = () => {
                 </div>
 
                 <h3 className="mb-0 pb-0 ms-2 fw-bold" style={{ color: "#5ed1d1" }}>{name}</h3><br/>
-
                 <img
-                  src={image}
+                  src={'https://localhost:7115/'+image.replace(/\\/g,'/')}
                   alt="profile"
                   className="rounded-circle ride-image"
                 /><br/>
@@ -169,7 +168,7 @@ export const ReservationRide = () => {
             <h3 className="mb-0 pb-0 ms-2 fw-bold" style={{ color: "#5ed1d1" }}>{name}</h3><br/>
 
             <img
-              src={image}
+              src={'https://localhost:7115/'+image.replace(/\\/g,'/')}
             alt="profile"
               className="rounded-circle ride-image"
             /><br/>
@@ -213,7 +212,7 @@ export const ReservationRide = () => {
               <h3 className="mb-0 pb-0 ms-2 fw-bold" style={{ color: "#5ed1d1" }}>{name}</h3><br/>
           
               <img
-                src={image}
+                src={'https://localhost:7115/'+image.replace(/\\/g,'/')}
                 alt="profile"
                 className="rounded-circle ride-image"
               /><br/>

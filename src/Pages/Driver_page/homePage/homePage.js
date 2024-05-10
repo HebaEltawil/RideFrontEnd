@@ -58,7 +58,7 @@ export const DriverHomePage = ({driverData}) =>{
                             }
                             setLocalDriverData(prevDriverData => ({
                                 ...prevDriverData,
-                                rides: [...prevDriverData.rides, newData]
+                                rides:prevDriverData.rides === null || prevDriverData.rides === undefined  ? [newData] : [...prevDriverData.rides, newData]
                             }));
                         }else if(jsonMap['type'] === 'rideUpdated')
                         {
