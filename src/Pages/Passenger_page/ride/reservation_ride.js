@@ -18,14 +18,16 @@ export const ReservationRide = () => {
 
   const location = useLocation();
   const navigate =useNavigate();
-  const rate=rideGoing['driver']['rating'];
-  const smoke=rideGoing['smoking'];
-  const name =rideGoing['driver']['username'];
-  const rideID=rideGoing['id'];
-  const image=rideGoing['driver']['imagePath'];
-  const from=rideGoing['from'];
-  const to=rideGoing['to'];
-  const [isPaying, setIsPaying] = useState(false); 
+
+  let [rate,setRate]=useState(rideGoing === null || rideGoing === undefined || Object.keys(rideGoing)? null : rideGoing['driver']['rating']);
+  let [smoke,setSmoke]=useState(rideGoing === null || rideGoing === undefined || Object.keys(rideGoing)? null :rideGoing['smoking']);
+  let [name,setName] =useState(rideGoing === null || rideGoing === undefined || Object.keys(rideGoing)? null :rideGoing['driver']['username']);
+  let [rideID,setRideId]=useState(rideGoing === null || rideGoing === undefined || Object.keys(rideGoing)? null :rideGoing['id']);
+  let [image,setImage]=useState(rideGoing === null || rideGoing === undefined || Object.keys(rideGoing)? null :rideGoing['driver']['imagePath']);
+  let [from,setFrom]=useState(rideGoing === null || rideGoing === undefined || Object.keys(rideGoing)? null :rideGoing['from']);
+  let [to,setTo]=useState(rideGoing === null || rideGoing === undefined || Object.keys(rideGoing)? null : rideGoing['to']);
+  const [isPaying, setIsPaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [feedback, setFeedback] = useState('');
   const [userRating, setUserRating] = useState('');
   const [error, setError] = useState('');
@@ -34,20 +36,35 @@ export const ReservationRide = () => {
     console.log(email);
   const connection = Connection;
 
-    useEffect(()=>{
-      connection.passWatchRideUpdated(email,ride=>{
-            rideGoing['status'] = ride;
-            console.log('in');
-            if(ride === "cancelled")
-            {
-              setRideGoing(null)
-            }
-            navigate('/');
-      });
+  useEffect(() => {
+    if(name === null)
+    {
+      setTimeout(() => {
+        setRate(prevState => rideGoing?.driver?.rating || prevState);
+        setSmoke(prevState => rideGoing?.smoking || prevState);
+        setName(prevState => rideGoing?.driver?.username || prevState);
+        setRideId(prevState => rideGoing?.id || prevState);
+        setImage(prevState => rideGoing?.driver?.imagePath || prevState);
+        setFrom(prevState => rideGoing?.from || prevState);
+        setTo(prevState => rideGoing?.to || prevState);
+        setIsLoading(false);
+      }, 3000);
+    }else {
+      setIsLoading(false);
+    }
 
-    },[])
+    connection.passWatchRideUpdated(email, ride => {
+      rideGoing['status'] = ride;
+      console.log('in');
+      if (ride === "cancelled") {
+        setRideGoing(null);
+      }
+      navigate('/');
+    });
+  }, []);
 
-    const cancelRide = async () => {
+
+  const cancelRide = async () => {
       console.log(rideGoing);
         try {
           await axios.patch(`${process.env.REACT_APP_API}/Passanger/cancelRide?id=${rideID}`)
@@ -107,7 +124,7 @@ export const ReservationRide = () => {
     console.log("userRating",userRating);
     console.log("feedback",feedback);
     console.log(rideGoing);
-    if(rideGoing !== null){
+    if(rideGoing !== null && !isLoading){
     return (
       <div>
   
@@ -275,6 +292,10 @@ export const ReservationRide = () => {
 
       </div>
     );
-  }
+  }else{
+      return (<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+        <p>This text is centered!</p>
+      </div>)
+    }
 
 }
