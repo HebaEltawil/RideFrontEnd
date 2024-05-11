@@ -2,42 +2,57 @@ import { allRides,allDrivers,sortallRides, updateRide } from '../../data';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import '../AllRidesStyle.css';
-import * as signalR from '@microsoft/signalr';
-import Connector from '../../../../Services/SignalR/SignalRConnection'
-
+import * as signalR from "@microsoft/signalr";
 export const RidesCard = ()=>{
-    
+    const URL = 'https://localhost:7115/realTime';
+    const connection = new signalR.HubConnectionBuilder()
+    .withUrl(URL)
+    .withAutomaticReconnect()
+    .build();
     const [driverName,setDriverName] =useState('')
     const [driverEmail,setDriverEmail] =useState('');
     const [driversName,setDrivers]= useState([]);
     const [,setTrigger] = useState(false);
     console.log(allDrivers)
-    const connector = Connector;
     useEffect(()=>{
-        connector.onRidesUpdated(rideToparse => { 
-        console.log(rideToparse);
-        if(rideToparse['type'] === 'rideCreated')
+        if(connection)
             {
-                const ride = JSON.parse(rideToparse['data']);
-                const rideToadd = {};
-                console.log(JSON.parse(rideToparse['data']));
-                for (const key in ride) {
-                    if (Object.hasOwnProperty.call(ride, key)) {
-                        const lowerCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
-                        rideToadd[lowerCaseKey] = ride[key];
-                    }
+                connection.start()
+                .then(() => {console.log('Connection established');
+                  connection.on("ridesUpdated",rideToparse=>{
+                    console.log(rideToparse);
+                    if(rideToparse['type'] === 'rideCreated')
+                        {
+                            const ride = JSON.parse(rideToparse['data']);
+                            const rideToadd = {};
+                            console.log(JSON.parse(rideToparse['data']));
+                            for (const key in ride) {
+                                if (Object.hasOwnProperty.call(ride, key)) {
+                                    const lowerCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
+                                    rideToadd[lowerCaseKey] = ride[key];
+                                }
+                            }
+                            allRides.push(rideToadd);
+                            sortallRides();
+                            setTrigger(prev => !prev);
+                        }
+                        else{
+                            const ride = JSON.parse(rideToparse['data']);
+                            updateRide(ride['Id'],ride['Status'])
+                            sortallRides();
+                            setTrigger(prev => !prev);
+                        }
+                })
+        
+        
                 }
-                allRides.push(rideToadd);
-                sortallRides();
-                setTrigger(prev => !prev);
+            
+            
+            )
+                .catch(err => console.error('Error establishing connection:', err));
             }
-            else{
-                const ride = JSON.parse(rideToparse['data']);
-                updateRide(ride['Id'],ride['Status'])
-                sortallRides();
-                setTrigger(prev => !prev);
-            }
-      });
+
+
      console.log(allDrivers.length)
         const temp = allDrivers.map((item)=>{console.log(item);return(
             <option value={item.username+','+item.email} key={Math.random().toString(36).substr(2, 9)}>

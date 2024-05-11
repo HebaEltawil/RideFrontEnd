@@ -4,12 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { accountsPending,removeAccount } from '../../data';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Connector from '../../../../Services/SignalR/SignalRConnection'
 export const PendingCard = ()=> {
+    
     let [cards,setCards]= useState([]);
     let [trigger,setTrigger]= useState(false);
     let [,setTrigger1] = useState(false);
-    const connector = Connector;
     let Accept =(email,index)=>{
         axios.post(process.env.REACT_APP_API +"/Admin/acceptAccount",{},{params:{email:email}}).then(()=>{
             removeAccount(parseInt(index));
@@ -25,10 +24,7 @@ export const PendingCard = ()=> {
 
     useEffect(()=>{
         pendingCards();
-        connector.onPendingAccountRecieved(account=>{
-            pendingCards();
-            setTrigger1(prev=>!prev)
-        })
+        
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[trigger]);
 

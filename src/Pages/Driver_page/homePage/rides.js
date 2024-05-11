@@ -178,7 +178,7 @@ export const Rides = ({driverData}) => {
                                     <div className="">
                                         <div className="mt-2 text-center">
                                             <img
-                                                src={require("./images/driver.jpg")}
+                                                src={require("../../../Assets/img/user_picture.png")}
                                                 className="" style={{height: '70px', width: '70px', borderRadius: '50%'}}
                                                 alt=""/>
                                         </div>

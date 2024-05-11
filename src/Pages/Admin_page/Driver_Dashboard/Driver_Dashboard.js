@@ -7,17 +7,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faArrowDownShortWide,faChevronLeft,faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-import Connector from '../../../Services/SignalR/SignalRConnection'
 import ReactCardFlip from 'react-card-flip';
 
-
 export const DriverDashboard = ()=> {
+
     let [search,setSearch] = useState('');
     let [,setBlockTrigger]= useState(false);
     let [isFlipped,setFlipped]= useState({});
     const [count, setCount] = useState({});
     const [availableDriversCount,setAvailableCount] = useState(-1);
-    const connector = Connector;
     const fetchData = async () => {
         console.log('in');
         clear();
@@ -31,11 +29,11 @@ export const DriverDashboard = ()=> {
                     allDrivers.push(element);
                 });
             setAvailableCount(tempAvailable);
-               
+            setBlockTrigger(prev=>!prev);
             }).catch((e)=>{if(e.response.status === 404){
                 setBlockTrigger(prev=>!prev);
             }})
-            setBlockTrigger(prev=>!prev);
+ 
             
     };
     const leftArrow = (index)=>{
@@ -60,6 +58,7 @@ export const DriverDashboard = ()=> {
         })
     }
     useEffect(()=>{
+       
         if(availableDriversCount == -1)
             {
                 var tempAvailable = 0;
@@ -67,15 +66,7 @@ export const DriverDashboard = ()=> {
                     setAvailableCount(tempAvailable);
             }
      
-            connector.onPendingAccountRecieved(account=>{
-                accountsPending.push(account);
-              });
-              connector.onRidesUpdated(rideToParse=>{
-                fetchData();
-              });
-              connector.onDriversUpdated(m=>{
-                fetchData();
-              });
+           
     },[]);
     return <> <div className='bodyD'>
         <div className="tiles">
