@@ -294,7 +294,7 @@ export const ReservationRide = () => {
     );
   }else{
       return (<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
-        <p>This text is centered!</p>
+        <p>Loading...</p>
       </div>)
     }
 

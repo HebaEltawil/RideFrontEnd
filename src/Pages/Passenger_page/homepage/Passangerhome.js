@@ -4,11 +4,12 @@ import axios from "axios";
 import { removeRideData, rideData,rideGoing,  setRideData,  setRideGoing } from "../data";
 import { PassengerPage } from "../drivers_page/passenger_page";
 import { ReservationRide } from "../ride/reservation_ride";
-
+import Connection from '../../../Services/SignalR/SignalRConnection'
 export const PassangerHomePage = ()=>{
     const {email,token} = UseAuth();
     const passengerEmail = email;
     const [rideTrigger, setTrigger] = useState(false);
+    const connection = Connection;
     // const rideGoing=localStorage.getItem('rideGoing')
     
 
@@ -30,7 +31,9 @@ export const PassangerHomePage = ()=>{
             setTrigger(prev=>!prev);
             // }
             console.log(rideData);
-
+            connection.passWatchRideUpdated(email, ride => {
+                setTrigger(prev=>!prev);
+              });
         })
 
         },[email])
